@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/poposnail61/min-sans@main/web/css/minsans-dynamic-subset.css');
+
+$en: 'Montserrat', sans-serif;
+$secondary-kr: 'MinSans';
+$primary-kr: 'Cafe24Ohsquareair';
+$primary-kr--bold: 'Cafe24Ohsquare';
+
+@font-face {
+  font-family: 'Cafe24Ohsquareair';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202@1.0/Cafe24Ohsquareair.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cafe24Ohsquare';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/Cafe24Ohsquare.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
