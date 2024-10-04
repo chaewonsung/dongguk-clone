@@ -5,6 +5,43 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* GSAP Reuse Function */
+
+/* Header */
+$('.full-header-buttons').on('click', function () {
+  $('.container').toggleClass('full-header-on');
+  $('.container').hasClass('full-header-on')
+    ? fullHeaderTl.play()
+    : fullHeaderTl.restart().pause();
+});
+
+const fullHeaderTl = gsap
+  .timeline({ defaults: { duration: 0.4 }, paused: true, repeatRefresh: true })
+  .fromTo('.full-header ', { yPercent: -100 }, { yPercent: 0 })
+  .to('.full-header-fake-bg', { yPercent: 100 })
+  .fromTo(
+    '.full-header-gnb a',
+    { autoAlpha: 0, yPercent: 100 },
+    { autoAlpha: 1, yPercent: 0, stagger: 0.1 }
+  )
+  .fromTo(
+    '.full-header .address-content',
+    { yPercent: 100 },
+    { yPercent: 0, duration: 0.3 }
+  )
+  .fromTo('.full-header-icon', { autoAlpha: 0 }, { autoAlpha: 1 })
+  .fromTo(
+    '.full-header-icon .rotate-v2',
+    { rotate: -5 },
+    {
+      rotate: 15,
+      repeat: -1,
+      yoyo: true,
+      yoyoEase: 'power2-out',
+      duration: 1,
+    }
+  );
+
 /* Main - Change Bg Color */
 ScrollTrigger.create({
   trigger: 'section.program-guide',
@@ -113,6 +150,22 @@ gsap.utils.toArray('.letter-item').forEach((item) => {
     gsap.to(q('.letter-bubble'), { autoAlpha: 1 });
     letterTl.reverse();
   });
+});
+
+/* Section : Introduction - Icon Animation */
+const iconTween = gsap.from('section.introduction [class*=icon]', {
+  width: 0,
+  margin: 0,
+  stagger: 0.4,
+  paused: true,
+  delay: 0.2,
+});
+
+ScrollTrigger.create({
+  trigger: 'section.introduction',
+  start: 'top 90%',
+  onEnter: () => iconTween.play(),
+  onLeaveBack: () => iconTween.restart(true).pause(),
 });
 
 /* Footer - Related Site */
