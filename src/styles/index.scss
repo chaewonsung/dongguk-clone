@@ -49,7 +49,6 @@ $bg-orange: #fe7632;
   color: $black;
   box-sizing: border-box;
 }
-
 [class*='inner'] {
   width: 1920px;
   margin: 0 auto;
@@ -60,7 +59,6 @@ $bg-orange: #fe7632;
     // padding: 0 20px;
   }
 }
-
 section:not(.greeting) {
   padding-bottom: 150px;
 }
@@ -73,7 +71,6 @@ section:not(.greeting) {
     transform: rotate(360deg);
   }
 }
-
 .container {
   &.full-header-on {
     .gnb,
@@ -85,7 +82,6 @@ section:not(.greeting) {
     }
   }
 }
-
 header {
   position: fixed;
   top: 0;
@@ -291,7 +287,6 @@ header {
     }
   }
 }
-
 main {
   background-color: $bg-green;
   transition: 0.5s;

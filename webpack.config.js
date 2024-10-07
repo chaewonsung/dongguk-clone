@@ -1,5 +1,12 @@
 module.exports = {
-  entry: '/src/js/main.js',
+  entry: {
+    main: '/src/js/main.js',
+    introduction: '/src/js/introduction.js',
+  },
+  output: {
+    path: __dirname + '/dist',
+    filename: '[name].js',
+  },
   mode: 'development',
   module: {
     rules: [
