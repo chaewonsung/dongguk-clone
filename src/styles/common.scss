@@ -31,12 +31,44 @@ $bg-orange: #fe7632;
     @return $target;
   }
 }
+@mixin set-bg-icon($icon-width, $icon-top, $icon-left, $url-head, $after...) {
+  @for $i from 1 through length($icon-width) {
+    $width: nth($icon-width, $i);
+    $top: nth($icon-top, $i);
+    $left: nth($icon-left, $i);
+    $url: url('/src/images/#{$url-head}#{$i}.png');
+
+    i:nth-child(#{$i}) {
+      @include absolute($t: $top, $l: $left);
+      &::before {
+        @include bg-icon-pseudo($width);
+        background-image: $url;
+      }
+      @if index($after, $i) {
+        $url: url('/src/images/#{$url-head}#{$i}_02.png');
+        &::after {
+          @include absolute(0, 0, 0, 0);
+          @include bg-icon-pseudo($width);
+          background-image: $url;
+        }
+      }
+    }
+  }
+}
 @mixin absolute($t: null, $r: null, $b: null, $l: null) {
   position: absolute;
   top: $t;
   right: $r;
   bottom: $b;
   left: $l;
+
+  @if ($t == 50% and $l == 50%) {
+    transform: translate(-50%, -50%);
+  } @else if ($t == 50%) {
+    transform: translate(0, -50%);
+  } @else if ($l == 50%) {
+    transform: translate(-50%, 0);
+  }
 }
 @mixin bg-icon-pseudo($width: null, $ratio: 1/1) {
   content: '';
@@ -45,6 +77,47 @@ $bg-orange: #fe7632;
   aspect-ratio: $ratio;
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+/*
+ * CSS Animation - Keyframes
+ */
+@keyframes infinite-rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/*
+ * CSS Animation - Add Class
+ */
+[class*='anim'] {
+  opacity: 0;
+  transition: 0.5s;
+  &.active {
+    opacity: 1;
+    transition: 0.5s;
+  }
+}
+.anim-scale {
+  scale: 0;
+  &.active {
+    scale: 1;
+  }
+}
+.anim-xRight {
+  transform: translateX(-100%);
+  &.active {
+    transform: translateX(0);
+  }
+}
+.anim-xLeft {
+  transform: translateX(100%);
+  &.active {
+    transform: translateX(0);
+  }
 }
 
 /*
@@ -58,26 +131,39 @@ $bg-orange: #fe7632;
 section:not(.greeting) {
   padding-bottom: 150px;
 }
-
-@keyframes infinite-rotate {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 .container {
   &.full-header-on {
     .gnb,
     .btn-full-header-show {
-      display: none;
+      display: none !important;
     }
     .btn-full-header-hide {
-      display: block;
+      display: block !important;
     }
   }
 }
+
+.header-inner,
+.footer-inner {
+  width: 1920px !important;
+  margin: 0 auto;
+}
+.btn-link {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 30px;
+  .bi {
+    display: inline-block;
+    margin-left: 5px;
+    color: inherit;
+    font-size: 0.7em;
+    translate: 0 -2px;
+  }
+}
+
+/*
+ * Header
+ */
 header {
   position: fixed;
   top: 0;
@@ -99,26 +185,33 @@ header {
     .gnb {
       font-size: 22px;
       margin-left: 120px;
+      font-weight: 500;
       a:not(:last-child) {
         margin-right: 50px;
       }
       a {
+        position: relative;
+        padding-bottom: 5px;
+        &::after {
+          content: '';
+          @include absolute($l: 0, $b: 0);
+          display: none;
+          width: 100%;
+          height: 3px;
+          background-color: rgba($black, 0.1);
+        }
+        &.located {
+          &::after {
+            display: inline-block;
+          }
+        }
       }
     }
-    .capstone {
-      margin-left: auto;
-      margin-right: 50px;
+    .btn-link {
       background-color: #000;
       color: $light-yellow;
-      padding: 12px 20px;
-      border-radius: 30px;
-      .bi {
-        display: inline-block;
-        margin-left: 5px;
-        color: inherit;
-        font-size: 0.7em;
-        translate: 0 -2px;
-      }
+      margin-left: auto;
+      margin-right: 50px;
     }
     .full-header-buttons {
       > button {
@@ -157,17 +250,24 @@ header {
             width: 120%;
             height: 2px;
             background-color: $black;
-            translate: -50% -50%;
           }
           &::before {
-            rotate: 45deg;
+            transform: translate(-50%, -50%) rotate(45deg);
           }
           &::after {
-            rotate: -45deg;
+            transform: translate(-50%, -50%) rotate(-45deg);
           }
         }
       }
     }
+  }
+}
+header.bright {
+  .gnb {
+    color: $light-yellow;
+  }
+  .btn-full-header-show i {
+    background-color: $light-yellow !important;
   }
 }
 .full-header {
@@ -202,9 +302,7 @@ header {
         font-family: $primary-kr--bold;
         font-size: $font-size;
         overflow: hidden;
-        &:not(:last-child) {
-          margin-bottom: 20px;
-        }
+        line-height: 1.4;
         a {
           position: relative;
           display: inline-block;
@@ -285,10 +383,65 @@ header {
   }
 }
 
+main {
+  padding-top: $header-height;
+  transition: 0.2s;
+  &.yellow {
+    background-color: $bg-yellow;
+    .match-bg {
+      color: $bg-yellow;
+    }
+  }
+  &.orange {
+    background-color: $bg-orange;
+    .match-bg {
+      color: $bg-orange;
+    }
+  }
+  &.green {
+    background-color: $bg-green;
+    .match-bg {
+      color: $bg-green;
+    }
+  }
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 100px;
+  font-size: 30px;
+  font-family: $primary-kr--bold;
+  .card-fake-btns {
+    i {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 2px solid $black;
+      border-radius: 5px;
+      font-size: 25px;
+      text-align: center;
+      -webkit-text-stroke: 1px;
+      &:not(:last-child) {
+        margin-right: 10px;
+      }
+      &::before {
+        line-height: 30px;
+      }
+      &:last-child::before {
+        transform: scale(1.15);
+      }
+      &:first-child::before {
+        transform: translateY(4px);
+      }
+    }
+  }
+}
+
 /*
  *  Footer
  */
 footer {
+  position: relative;
   background-color: $black;
   height: 260px;
   display: flex;

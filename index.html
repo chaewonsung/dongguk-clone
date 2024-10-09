@@ -3,79 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/src/styles/index.scss" />
+    <link rel="icon" href="/src/images/favicon.ico" />
+    <title>동국대학교 산학교육센터</title>
+
+    <script src="/dist/main.js"></script>
   </head>
   <body>
     <div class="container">
-      <header>
-        <div class="header-inner">
-          <div class="logo">
-            <a href="/index.html"><img src="/src/images/logo.png" alt="" /></a>
-          </div>
-          <nav class="gnb">
-            <a href="">소개</a><a href="">Q&A</a><a href="">학생</a
-            ><a href="">교원</a><a href="">산업체</a>
-          </nav>
-          <a class="capstone" href=""
-            >캡스톤디자인<i class="bi bi-box-arrow-up-right"></i
-          ></a>
-          <div class="full-header-buttons">
-            <button class="btn-full-header-show">
-              <span><i></i><i></i><i></i></span
-              ><span><i></i><i></i><i></i></span
-              ><span><i></i><i></i><i></i></span>
-            </button>
-            <button class="btn-full-header-hide"><i></i></button>
-          </div>
-        </div>
-      </header>
-      <div class="full-header">
-        <div class="full-header-fake-bg"></div>
-        <div class="full-header-content">
-          <ul class="full-header-gnb">
-            <li>
-              <a href=""><i>홈</i></a>
-            </li>
-            <li>
-              <a href=""><i>소개</i></a>
-            </li>
-            <li>
-              <a href=""><i>Q&A</i></a>
-            </li>
-            <li>
-              <a href=""><i>학생</i></a>
-            </li>
-            <li>
-              <a href=""><i>교원</i></a>
-            </li>
-            <li>
-              <a href=""><i>산업체</i></a>
-            </li>
-          </ul>
-          <address>
-            <div class="address-content">
-              <div class="address">
-                <b>Address</b>
-                04620 서울특별시 중구 필동로 1길 30 동국대학교<br />
-                신공학관 9층 9134호 LINC3.0사업단
-              </div>
-              <div class="tel-fax">
-                <span><b>Tel</b>02-2290-1723~30</span
-                ><span><b>Fax</b>02-2290-1731</span>
-              </div>
-            </div>
-          </address>
-          <div class="full-header-icon"><i class="rotate-v2"></i></div>
-        </div>
-      </div>
-      <main>
+      <div class="header-include"></div>
+      <main class="green">
         <section class="greeting">
           <div class="greeting-bg-text">
             <div class="text-wrap">
-              <span class="stroke"
+              <span class="match-bg"
                 >Leaders in Industry-university Cooperation&nbsp;</span
-              ><span class="stroke"
+              ><span class="match-bg"
                 >Leaders in Industry-university Cooperation&nbsp;</span
               >
             </div>
@@ -84,9 +26,9 @@
               ><span>Leaders in Industry-university Cooperation&nbsp;</span>
             </div>
             <div class="text-wrap">
-              <span class="stroke"
+              <span class="match-bg"
                 >Leaders in Industry-university Cooperation&nbsp;</span
-              ><span class="stroke"
+              ><span class="match-bg"
                 >Leaders in Industry-university Cooperation&nbsp;</span
               >
             </div>
@@ -122,9 +64,9 @@
               </i>
             </div>
             <div class="greeting-center">
-              <img class="anim-01" src="/src/images/deco_linc01.png" alt="" />
-              <img class="anim-02" src="/src/images/deco_linc02.png" alt="" />
-              <img class="anim-03" src="/src/images/deco_linc03.png" alt="" />
+              <img class="img-01" src="/src/images/deco_linc01.png" alt="" />
+              <img class="img-02" src="/src/images/deco_linc02.png" alt="" />
+              <img class="img-03" src="/src/images/deco_linc03.png" alt="" />
             </div>
           </div>
         </section>
@@ -158,10 +100,10 @@
               </div>
               <div class="slogan-text-wrap-04">
                 <span class="absolute">
-                  산학교육센터<span class="linc stroke">LINC 3.0</span>
+                  산학교육센터<span class="linc match-bg">LINC 3.0</span>
                 </span>
                 <span class="static"
-                  >산학교육센터<span class="linc stroke">LINC 3.0</span></span
+                  >산학교육센터<span class="linc match-bg">LINC 3.0</span></span
                 >
               </div>
             </div>
@@ -175,9 +117,9 @@
             >
             <div class="letter-items">
               <div class="letter-item">
-                <div class="letter-header">
-                  <span class="recipient">학생</span>
-                  <span class="letter-fake-btns">
+                <div class="card-header">
+                  <span class="subject">학생</span>
+                  <span class="card-fake-btns">
                     <i class="bi bi-dash"></i><i class="bi bi-stop"></i
                     ><i class="bi bi-x"></i>
                   </span>
@@ -232,9 +174,9 @@
                 </div>
               </div>
               <div class="letter-item">
-                <div class="letter-header">
+                <div class="card-header">
                   <span class="recipient">교원</span>
-                  <span class="letter-fake-btns">
+                  <span class="card-fake-btns">
                     <i class="bi bi-dash"></i><i class="bi bi-stop"></i
                     ><i class="bi bi-x"></i>
                   </span>
@@ -289,9 +231,9 @@
                 </div>
               </div>
               <div class="letter-item">
-                <div class="letter-header">
+                <div class="card-header">
                   <span class="recipient">산업체</span>
-                  <span class="letter-fake-btns">
+                  <span class="card-fake-btns">
                     <i class="bi bi-dash"></i><i class="bi bi-stop"></i
                     ><i class="bi bi-x"></i>
                   </span>
@@ -369,32 +311,7 @@
           </div>
         </section>
       </main>
-      <footer>
-        <div class="footer-inner">
-          <div class="copyright-wrap">
-            &copy; 2024 동국대학교 LINC 3.0 사업단<span class="powered-by"
-              >Powered by <b>D.LOFT</b></span
-            >
-            <div class="related-site">
-              <span>관련사이트 <i class="bi bi-chevron-up"></i></span>
-              <ul class="site-link-list">
-                <li><a href="">교육부</a></li>
-                <li><a href="">한국연구재단</a></li>
-                <li><a href="">SBA</a></li>
-                <li><a href="">동국대학교</a></li>
-                <li><a href="">동국대학교 산학협력단</a></li>
-                <li><a href="">과학기술정보통신부</a></li>
-              </ul>
-            </div>
-          </div>
-          <address>
-            <i>04620 서울특별시 중구 필동로 1길 30</i>
-            <i>동국대학교 신공학관 9층 9134호 LINC3.0사업단</i><br />
-            TEL 02-2290-1723~30 / Fax 02-2290-1731
-          </address>
-        </div>
-      </footer>
+      <div class="footer-include"></div>
     </div>
-    <script src="/dist/main.js"></script>
   </body>
 </html>

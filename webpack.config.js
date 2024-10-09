@@ -2,6 +2,8 @@ module.exports = {
   entry: {
     main: '/src/js/main.js',
     introduction: '/src/js/introduction.js',
+    qna: '/src/js/qna.js',
+    detail: '/src/js/detail.js',
   },
   output: {
     path: __dirname + '/dist',

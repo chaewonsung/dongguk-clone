@@ -1,0 +1,200 @@
+@import 'fonts', 'common', 'reset', 'bootstrap-icons/font/bootstrap-icons.css';
+
+main {
+  background-color: #ab9bf5;
+}
+section.qna {
+  position: relative;
+  overflow: hidden;
+
+  .qna-inner {
+    position: relative;
+    width: 1320px;
+    margin: 0 auto;
+    .qna-search {
+      border-bottom: 1px solid rgba($black, 0.2);
+      padding-bottom: 70px;
+      margin-bottom: 40px;
+      .qna-text {
+        position: relative;
+        text-align: center;
+        font-size: 80px;
+        line-height: 1.2;
+        margin: 200px 0;
+        .qna-bg-text {
+          @include absolute($t: 50%, $l: 50%);
+          font-size: 200px;
+          font-family: $en;
+          text-transform: uppercase;
+          font-weight: 700;
+          letter-spacing: -0.05em;
+          white-space: nowrap;
+          opacity: 0.1;
+        }
+      }
+      .input-wrap {
+        position: relative;
+        width: fit-content;
+        margin: 0 auto;
+        input {
+          border-radius: 99px;
+          border: 2px solid $black;
+          width: 50vw;
+          max-width: 1000px;
+          height: 70px;
+          padding: 0 40px;
+          font-size: 22px;
+          font-family: $secondary-kr;
+          background-color: $light-yellow;
+          font-weight: 300;
+          &::placeholder {
+            font-size: inherit;
+            font-weight: inherit;
+          }
+          &:focus {
+            outline: none;
+          }
+        }
+        button {
+          @include absolute($r: 20px, $t: 50%);
+          .bi {
+            font-size: 30px;
+            &::before {
+              line-height: 70px;
+            }
+          }
+        }
+      }
+    }
+    .qna-card-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      font-family: $secondary-kr;
+      li {
+        background-color: $light-yellow;
+        border: 2px solid $black;
+        font-size: 20px;
+        letter-spacing: -0.05em;
+        transition: 0.2s;
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 5px 5px rgba($black, 0.1);
+          transition: 0.2s;
+        }
+        a {
+          display: block;
+          padding: 20px;
+          img {
+            width: 100%;
+            border-radius: 10px;
+          }
+          p {
+            width: calc(
+              (1320px - 40px) / 3 - 40px
+            ); // innerWidth - gap / 3 - padding
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            margin: 20px 0 30px;
+            font-weight: 500;
+          }
+          .tag {
+            opacity: 0.5;
+            font-weight: 300;
+            i {
+              margin-right: 5px;
+              &::before {
+                content: '#';
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .qna-bg-icon {
+    @include absolute($l: 50%, $b: 0);
+    width: 90%;
+    height: 100%;
+    filter: drop-shadow(5px 5px rgba($black, 0.1));
+
+    $icon-width: 50px, 330px, 220px, 130px, 270px, 50px, 270px, 220px, 50px,
+      180px, 150px, 170px;
+    $icon-left: 70%, 0, 90%, 85%, 0, 40%, 90%, 0, 40%, 90%, 12%, 7%;
+    $top: 0;
+
+    @for $i from 1 through length($icon-width) {
+      $width: nth($icon-width, $i);
+      $top: $top + calc(100% / length($icon-width));
+      $left: nth($icon-left, $i);
+
+      i:nth-child(#{$i}) {
+        @include absolute($t: $top, $l: $left);
+        &::before {
+          @include bg-icon-pseudo($width);
+          background-image: url(/src/images/deco_gallery#{$i}.png);
+        }
+      }
+      @if ($i == 1) {
+        i:nth-child(#{$i}) {
+          @include absolute($t: -2%, $l: $left);
+        }
+      }
+      @if ($i == 2) {
+        i:nth-child(#{$i})::after {
+          @include bg-icon-pseudo(50px);
+          @include absolute(0, 0, 0, 0);
+          background-image: url(/src/images/deco_gallery#{$i}_2.png);
+        }
+      }
+      @if ($i == 12) {
+        i:nth-child(#{$i}) {
+          @include absolute($t: 94%, $l: $left);
+        }
+      }
+    }
+
+    .anim-custom-1 {
+      $line-width: 280px;
+      &::before {
+        transform: translateX(-$line-width);
+      }
+      &::after {
+        content: '';
+        @include absolute($t: 50%, $l: calc(-#{$line-width} - 10px));
+        width: 0px;
+        height: 2px;
+        background-color: $black;
+        transform: translate(0, calc(-50% - 3px));
+      }
+      &.active {
+        &::before {
+          transform: translateX(0);
+          transition: 0.8s;
+        }
+        &::after {
+          width: $line-width;
+          transition: 0.5s 0.8s;
+        }
+      }
+    }
+    i:nth-child(2).active {
+      &::after {
+        @keyframes after-anim {
+          0% {
+            transform: scale(1) rotate(0);
+          }
+          50% {
+            transform: scale(0) rotate(260deg);
+          }
+          100% {
+            transform: scale(1) rotate(0);
+          }
+        }
+        animation: after-anim 1s 0.5s;
+      }
+    }
+  }
+}

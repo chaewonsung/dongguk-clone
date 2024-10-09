@@ -92,7 +92,6 @@ aside,
 details,
 figcaption,
 figure,
-footer,
 header,
 hgroup,
 menu,
@@ -129,6 +128,9 @@ a {
 }
 button {
   border: none;
-	background-color: transparent;
-	cursor: pointer;
+  background-color: transparent;
+  cursor: pointer;
+}
+span {
+  color: inherit;
 }
