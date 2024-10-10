@@ -14,23 +14,6 @@ $bg-orange: #fe7632;
   @return -#{$width}px 0px $color, 0px #{$width}px $color,
     #{$width}px 0px $color, 0px -#{$width}px $color;
 }
-@function vw($target) {
-  @if type-of($target) == number {
-    @return (($target * 100) / $mobile-size) * 1vw;
-  } @else if type-of($target) == list {
-    $vw: ();
-    @each $value in $target {
-      @if type-of($value) == number {
-        $vw: append($vw, (($value * 100) / $mobile-size) * 1vw);
-      } @else if type-of($value) == string {
-        $vw: append($vw, $value);
-      }
-    }
-    @return $vw;
-  } @else {
-    @return $target;
-  }
-}
 @mixin set-bg-icon($icon-width, $icon-top, $icon-left, $url-head, $after...) {
   @for $i from 1 through length($icon-width) {
     $width: nth($icon-width, $i);
@@ -143,11 +126,6 @@ section:not(.greeting) {
   }
 }
 
-.header-inner,
-.footer-inner {
-  width: 1920px !important;
-  margin: 0 auto;
-}
 .btn-link {
   display: inline-block;
   padding: 12px 20px;
@@ -303,6 +281,7 @@ header.bright {
         font-size: $font-size;
         overflow: hidden;
         line-height: 1.4;
+        white-space: nowrap;
         a {
           position: relative;
           display: inline-block;
@@ -336,6 +315,7 @@ header.bright {
       line-height: 1.5;
       text-align: right;
       overflow: hidden;
+      word-break: keep-all;
       b {
         display: block;
         font-size: 20px;
@@ -408,7 +388,6 @@ main {
 .card-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 100px;
   font-size: 30px;
   font-family: $primary-kr--bold;
   .card-fake-btns {
@@ -513,6 +492,67 @@ footer {
     address {
       font-size: 14px;
       line-height: 1.5;
+    }
+  }
+}
+
+.header-inner,
+.footer-inner {
+  width: 1800px !important;
+  margin: 0 auto;
+}
+@media screen and (max-width: 1800px) {
+  .header-inner,
+  .footer-inner {
+    width: 100% !important;
+    padding: 0 30px;
+  }
+}
+@media screen and (max-width: 1280px) {
+  header {
+    .gnb {
+      display: none;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  header {
+    .header-inner {
+      height: 80px;
+      .logo {
+        width: 180px;
+      }
+    }
+    .btn-link {
+      display: none;
+    }
+    .full-header-buttons {
+      margin-left: auto;
+    }
+  }
+  .full-header {
+    .full-header-content {
+      flex-direction: column;
+      gap: 50px;
+      address {
+        align-self: auto;
+        text-align: unset;
+        font-size: 13px;
+        b {
+          font-size: inherit;
+          font-weight: 700;
+        }
+        .tel-fax {
+          flex-direction: row;
+        }
+      }
+      .full-header-icon {
+        width: 50%;
+        height: 50%;
+        &::before {
+          top: vw(60px);
+        }
+      }
     }
   }
 }

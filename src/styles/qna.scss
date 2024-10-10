@@ -139,7 +139,7 @@ section.qna {
       }
       @if ($i == 1) {
         i:nth-child(#{$i}) {
-          @include absolute($t: -2%, $l: $left);
+          @include absolute($t: 140px, $l: $left);
         }
       }
       @if ($i == 2) {

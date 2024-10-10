@@ -15,12 +15,15 @@ window.addEventListener('load', function () {
 
     const fullHeaderTl = gsap
       .timeline({
-        defaults: { duration: 0.4 },
         paused: true,
         repeatRefresh: true,
       })
-      .fromTo('.full-header ', { yPercent: -100 }, { yPercent: 0 })
-      .to('.full-header-fake-bg', { yPercent: 100 })
+      .fromTo(
+        '.full-header ',
+        { yPercent: -100 },
+        { yPercent: 0, duration: 0.2 }
+      )
+      .to('.full-header-fake-bg', { yPercent: 100, duration: 0.3 })
       .fromTo(
         '.full-header-gnb a',
         { autoAlpha: 0, yPercent: 100 },

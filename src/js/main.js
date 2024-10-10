@@ -71,40 +71,6 @@ window.addEventListener('load', function () {
     )
     .add(greetingEmojiTl);
 
-  /* Section : Slogan Animation */
-  ScrollTrigger.create({
-    trigger: 'section.slogan',
-    start: '40% bottom',
-    onEnter() {
-      sloganTl.play();
-    },
-    onLeaveBack() {
-      sloganTl.reverse();
-    },
-  });
-  const sloganTl = gsap
-    .timeline({ paused: true })
-    .to('.slogan-phrase-bg', {
-      rotateX: 90,
-      transformOrigin: 'bottom center',
-      stagger: 0.3,
-    })
-    .to(
-      '.slogan-phrase .absolute',
-      {
-        rotateX: 90,
-        transformOrigin: 'bottom center',
-        stagger: (index) => (index < 2 ? 0 : 0.3),
-      },
-      0
-    )
-    .fromTo(
-      '.slogan-phrase .static',
-      { rotateX: 90, transformOrigin: 'top center' },
-      { rotateX: 0, stagger: (index) => (index < 2 ? 0 : 0.3) },
-      0
-    );
-
   /* Section : Program guide - Letter Animation */
   gsap.utils.toArray('.letter-item').forEach((item) => {
     const q = gsap.utils.selector(item);
@@ -113,7 +79,7 @@ window.addEventListener('load', function () {
       .to(q('.letter-envelope-close-img'), { rotateX: 180 })
       .set(q('.letter-envelope-close-img'), { zIndex: 0 })
       .to(q('.letter-paper'), { y: 0 })
-      .to(q('.letter-envelope-inner-img'), { display: 'block' }, '<')
+      .to(q('.letter-envelope-in-img'), { display: 'block' }, '<')
       .to(q('.letter-envelope-close-img'), { autoAlpha: 0 }, '<');
 
     item.addEventListener('mouseenter', function () {
@@ -140,5 +106,64 @@ window.addEventListener('load', function () {
     start: 'top 90%',
     onEnter: () => iconTween.play(),
     onLeaveBack: () => iconTween.restart(true).pause(),
+  });
+
+  let sloganTl;
+
+  ScrollTrigger.create({
+    trigger: 'section.slogan',
+    start: 'top bottom',
+    onEnter() {
+      sloganTl.play();
+    },
+    onLeaveBack() {
+      sloganTl.restart(true).pause();
+    },
+  });
+
+  gsap.matchMedia().add('(min-width: 769px)', () => {
+    /* Section : Slogan Animation */
+
+    sloganTl = gsap
+      .timeline({ paused: true, delay: 0.3 })
+      .to('.slogan-phrase-bg', {
+        rotateX: 90,
+        transformOrigin: 'bottom center',
+        stagger: 0.3,
+      })
+      .to(
+        '.slogan-phrase .absolute',
+        {
+          rotateX: 90,
+          transformOrigin: 'bottom center',
+          stagger: (index) => (index < 2 ? 0 : 0.3),
+        },
+        0
+      )
+      .fromTo(
+        '.slogan-phrase .static',
+        { rotateX: 90, transformOrigin: 'top center' },
+        { rotateX: 0, stagger: (index) => (index < 2 ? 0 : 0.3) },
+        0
+      );
+  });
+
+  gsap.matchMedia().add('(max-width: 768px)', () => {
+    sloganTl = gsap
+      .timeline({
+        paused: true,
+        delay: 0.3,
+        defaults: { stagger: 0.2, duration: 0.4 },
+      })
+      .to('section.slogan .absolute', {
+        rotateX: 90,
+        transformOrigin: 'bottom center',
+      })
+      .fromTo(
+        'section.slogan .static',
+        { rotateX: 90, transformOrigin: 'top center' },
+        { rotateX: 0 },
+        0
+      );
   });
 });
