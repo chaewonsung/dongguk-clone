@@ -73,89 +73,26 @@ section.greeting {
     display: flex;
     justify-content: center;
     align-items: center;
-    .greeting-emoji {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 95%;
+    .greeting-bg-icon {
+      @include absolute($t: 50%, $l: 50%);
+      width: 100%;
       height: 70%;
-      transform: translate(-50%, -50%);
-      > * {
-        position: absolute;
-        .img-wrap {
-          position: absolute;
-          display: inline-block;
-          aspect-ratio: 1/1;
-          filter: drop-shadow(5px 5px rgba($black, 0.1));
-        }
-      }
-      .top-left-emoji {
-        top: 0;
-        left: 0;
-        .img-wrap:nth-child(1) {
-          top: 0;
-          left: 0;
-          width: 120px;
-          background: url(/src/images/section01_01.png) no-repeat;
-          background-size: cover;
-        }
-        .img-wrap:nth-child(2) {
-          top: 25px;
-          left: 90px;
-          width: 175px;
-          img {
-            width: 100%;
-          }
-        }
-      }
-      .top-right-emoji {
-        top: 0;
-        right: 0;
-        .img-wrap:nth-child(1) {
-          right: 80px;
-          top: 0;
-          width: 190px;
-          background: url(/src/images/section01_03.png) no-repeat;
-          background-size: cover;
-        }
-        .img-wrap:nth-child(2) {
-          top: 90px;
-          right: 0;
-          width: 111px;
-          background: url(/src/images/section01_04.png) no-repeat;
-          background-size: cover;
-        }
-      }
-      .bottom-left-emoji {
-        bottom: 0;
-        left: 0;
-        .img-wrap:nth-child(1) {
-          bottom: 0;
-          left: 0;
-          width: 120px;
-          background: url(/src/images/section01_05.png) no-repeat;
-          background-size: cover;
-        }
-      }
-      .bottom-right-emoji {
-        bottom: 0;
-        right: 0;
-        .img-wrap:nth-child(1) {
-          right: 115px;
-          bottom: 0;
-          width: 121px;
-          img {
-            width: 100%;
-          }
-        }
-        .img-wrap:nth-child(2) {
-          right: 0;
-          bottom: 0;
-          width: 184px;
-          background: url(/src/images/section01_07.png) no-repeat;
-          background-size: cover;
-        }
-      }
+      filter: drop-shadow(5px 5px rgba($black, 0.1));
+
+      $icon-width: 120px, 165px, 190px, 111px, 150px, 125px, 200px;
+      $icon-top: 0, 25px, 0, 90px, null, null, null, null;
+      $icon-right: null, null, 80px, 0, null, 130px, 0;
+      $icon-bottom: null, null, null, null, 0, 0, 0;
+      $icon-left: 0, 90px, null, null, 0, null, null;
+
+      @include set-bg-icon-2(
+        $icon-width,
+        $icon-top,
+        $icon-right,
+        $icon-bottom,
+        $icon-left,
+        'section01_0'
+      );
     }
     .greeting-center {
       position: relative;
@@ -547,7 +484,6 @@ section.introduction {
         background-size: cover;
       }
       .icon-clover {
-        width: 70px;
         background-image: url(/src/images/section02_02.svg);
       }
       .icon-earth {
@@ -587,10 +523,6 @@ section.greeting {
 }
 
 @media screen and (max-width: 1800px) {
-  @function vw($px-vw, $base-vw: 1800px) {
-    @return ($px-vw * 100vw) / $base-vw;
-  }
-
   [class*='inner'] {
     width: 100%;
     padding: 0 30px !important;
@@ -599,45 +531,10 @@ section.greeting {
   section.greeting {
     .greeting-inner {
       .greeting-center {
-        width: max(vw(680px), 550px);
+        width: max(vw(680px), 500px);
       }
-      .greeting-emoji {
-        width: 85%;
-
-        .top-left-emoji {
-          .img-wrap:nth-child(1) {
-            width: vw(120px);
-          }
-          .img-wrap:nth-child(2) {
-            top: vw(25px);
-            left: vw(90px);
-            width: vw(175px);
-          }
-        }
-        .top-right-emoji {
-          .img-wrap:nth-child(1) {
-            right: vw(80px);
-            width: vw(190px);
-          }
-          .img-wrap:nth-child(2) {
-            top: vw(90px);
-            width: vw(111px);
-          }
-        }
-        .bottom-left-emoji {
-          .img-wrap:nth-child(1) {
-            width: vw(120px);
-          }
-        }
-        .bottom-right-emoji {
-          .img-wrap:nth-child(1) {
-            right: vw(115px);
-            width: vw(121px);
-          }
-          .img-wrap:nth-child(2) {
-            width: vw(184px);
-          }
-        }
+      .greeting-bg-icon {
+        width: 90%;
       }
     }
   }
@@ -749,9 +646,6 @@ section.greeting {
           width: vw(100px);
           margin: 0 vw(30px);
         }
-        .icon-clover {
-          width: vw(70px);
-        }
       }
       a {
         font-size: vw(30px);
@@ -768,75 +662,10 @@ section.greeting {
     @return ($px-vw * 100vw) / $base-vw;
   }
 
-  .full-header {
-    .full-header-content {
-      .full-header-icon {
-        width: vw(520px);
-        height: vw(340px);
-        &::before {
-          right: vw(30px);
-          width: vw(94px);
-        }
-        .rotate-v2 {
-          width: vw(200px);
-        }
-        &::after {
-          width: vw(220px);
-        }
-      }
-      .full-header-gnb {
-        li {
-          font-size: vw(80px);
-        }
-      }
-    }
-  }
-
-  section.greeting {
-    .greeting-inner {
-      .greeting-emoji {
-        .top-left-emoji {
-          .img-wrap:nth-child(1) {
-            width: vw(100px);
-          }
-          .img-wrap:nth-child(2) {
-            width: vw(150px);
-            top: vw(40px);
-            left: vw(70px);
-          }
-        }
-        .top-right-emoji {
-          .img-wrap:nth-child(1) {
-            right: vw(60px);
-            width: vw(160px);
-          }
-          .img-wrap:nth-child(2) {
-            width: vw(90px);
-            top: vw(80px);
-          }
-        }
-        .bottom-left-emoji {
-          .img-wrap:nth-child(1) {
-            width: vw(100px);
-          }
-        }
-        .bottom-right-emoji {
-          .img-wrap:nth-child(1) {
-            width: vw(100px);
-            right: vw(115px);
-          }
-          .img-wrap:nth-child(2) {
-            width: vw(170px);
-          }
-        }
-      }
-    }
-  }
-
   section.program-guide {
     .program-guide-inner {
       .program-guide-title {
-        font-size: vw(90px);
+        font-size: vw(120px);
       }
       .letter-items {
         flex-direction: column;
@@ -937,6 +766,19 @@ section.greeting {
       }
       .slogan-phrase-bg {
         display: none;
+      }
+    }
+  }
+  section.introduction {
+    .introduction-content {
+      font-size: vw(80px);
+      .introduction-phrase {
+        [class*='icon'] {
+          width: vw(80px);
+        }
+        span {
+          display: block;
+        }
       }
     }
   }

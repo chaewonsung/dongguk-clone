@@ -9,10 +9,18 @@ $bg-orange: #fe7632;
 /*
  * SCSS - Function & Mixin
  */
-
 @function text-shadow($color, $width: 1) {
   @return -#{$width}px 0px $color, 0px #{$width}px $color,
     #{$width}px 0px $color, 0px -#{$width}px $color;
+}
+@function vw($px-vw, $base-vw: 1800px) {
+  @return ($px-vw * 100vw) / $base-vw;
+}
+@function to-clamp($val) {
+  @if ($val == 0 or $val == null) {
+    @return $val;
+  }
+  @return clamp($val * 0.65, vw($val), $val);
 }
 @mixin set-bg-icon($icon-width, $icon-top, $icon-left, $url-head, $after...) {
   @for $i from 1 through length($icon-width) {
@@ -32,6 +40,45 @@ $bg-orange: #fe7632;
         &::after {
           @include absolute(0, 0, 0, 0);
           @include bg-icon-pseudo($width);
+          background-image: $url;
+        }
+      }
+    }
+  }
+}
+@mixin set-bg-icon-2(
+  $icon-width,
+  $icon-top,
+  $icon-right,
+  $icon-bottom,
+  $icon-left,
+  $url-head,
+  $after...
+) {
+  @for $i from 1 through length($icon-width) {
+    $width: nth($icon-width, $i);
+    $top: nth($icon-top, $i);
+    $right: nth($icon-right, $i);
+    $bottom: nth($icon-bottom, $i);
+    $left: nth($icon-left, $i);
+    $url: url('/src/images/#{$url-head}#{$i}.png');
+
+    i:nth-child(#{$i}) {
+      position: absolute;
+      top: to-clamp($top);
+      right: to-clamp($right);
+      bottom: to-clamp($bottom);
+      left: to-clamp($left);
+      width: to-clamp($width);
+      aspect-ratio: 1/1;
+      &::before {
+        @include bg-icon-pseudo-2;
+        background-image: $url;
+      }
+      @if index($after, $i) {
+        $url: url('/src/images/#{$url-head}#{$i}_02.png');
+        &::after {
+          @include bg-icon-pseudo-2;
           background-image: $url;
         }
       }
@@ -58,6 +105,12 @@ $bg-orange: #fe7632;
   display: inline-block;
   width: $width;
   aspect-ratio: $ratio;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+@mixin bg-icon-pseudo-2 {
+  content: '';
+  @include absolute(0, 0, 0, 0);
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -270,43 +323,78 @@ header.bright {
     width: 80%;
     display: flex;
     justify-content: space-between;
-    .full-header-gnb {
-      li {
-        $font-size: 80px;
-        $arrow-margin-r: 10px;
-        $translateX: calc($font-size + $arrow-margin-r);
+    .full-header-gnb-wrap {
+      .full-header-icon {
+        @include absolute($t: 0, $r: 0);
+        width: 520px;
+        height: 340px;
 
-        padding-right: $translateX;
-        font-family: $primary-kr--bold;
-        font-size: $font-size;
-        overflow: hidden;
-        line-height: 1.4;
-        white-space: nowrap;
-        a {
-          position: relative;
+        &::before,
+        .rotate-v2,
+        &::after {
+          content: '';
           display: inline-block;
-          i {
+          background-size: cover;
+          aspect-ratio: 1/1;
+        }
+        &::before {
+          @include absolute($t: 0, $r: 30px);
+          width: 94px;
+          background-image: url(/src/images/header01_01.png);
+        }
+        .rotate-v2 {
+          @include absolute($t: 0, $l: 0);
+          width: 200px;
+          background-image: url(/src/images/header01_02.png);
+          filter: drop-shadow(5px 5px rgba($black, 0.1));
+        }
+        &::after {
+          @include absolute($b: 0, $r: 0);
+          width: 220px;
+          background-image: url(/src/images/header01_03.png);
+        }
+      }
+      .full-header-gnb {
+        li {
+          $font-size: 80px;
+          $arrow-margin-r: 10px;
+          $translateX: calc($font-size + $arrow-margin-r);
+
+          padding-right: $translateX;
+          font-family: $primary-kr--bold;
+          font-size: $font-size;
+          overflow: hidden;
+          line-height: 1.4;
+          white-space: nowrap;
+          a {
+            position: relative;
             display: inline-block;
-            transition: transform 0.5s;
-            &::before {
-              content: '';
-              @include absolute($r: calc(100% + $arrow-margin-r), $t: 50%);
-              transform: translateY(-50%);
+            i {
               display: inline-block;
-              width: $font-size;
-              aspect-ratio: 1/1;
-              background-image: url(/src/images/header_arrow.png);
-              background-size: cover;
-              vertical-align: middle;
-            }
-            &:hover {
-              -webkit-text-stroke: 2px $black;
-              color: transparent;
-              transform: translateX($translateX);
               transition: transform 0.5s;
+              &::before {
+                content: '';
+                @include absolute($r: calc(100% + $arrow-margin-r), $t: 50%);
+                transform: translateY(-50%);
+                display: inline-block;
+                width: $font-size;
+                aspect-ratio: 1/1;
+                background-image: url(/src/images/header_arrow.png);
+                background-size: cover;
+                vertical-align: middle;
+              }
+              &:hover {
+                -webkit-text-stroke: 2px $black;
+                color: transparent;
+                transform: translateX($translateX);
+                transition: transform 0.5s;
+              }
             }
           }
         }
+      }
+      .capstone {
+        display: none;
       }
     }
     address {
@@ -328,36 +416,6 @@ header.bright {
         span {
           margin-top: 10px;
         }
-      }
-    }
-    .full-header-icon {
-      @include absolute($t: 0, $r: 0);
-      width: 520px;
-      height: 340px;
-
-      &::before,
-      .rotate-v2,
-      &::after {
-        content: '';
-        display: inline-block;
-        background-size: cover;
-        aspect-ratio: 1/1;
-      }
-      &::before {
-        @include absolute($t: 0, $r: 30px);
-        width: 94px;
-        background-image: url(/src/images/header01_01.png);
-      }
-      .rotate-v2 {
-        @include absolute($t: 0, $l: 0);
-        width: 200px;
-        background-image: url(/src/images/header01_02.png);
-        filter: drop-shadow(5px 5px rgba($black, 0.1));
-      }
-      &::after {
-        @include absolute($b: 0, $r: 0);
-        width: 220px;
-        background-image: url(/src/images/header01_03.png);
       }
     }
   }
@@ -515,10 +573,50 @@ footer {
     }
   }
 }
+@media screen and (max-width: 1024px) {
+  @function vw($px-vw, $base-vw: 1024px) {
+    @return ($px-vw * 100vw) / $base-vw;
+  }
+
+  .full-header {
+    .full-header-content {
+      .full-header-gnb-wrap {
+        .full-header-icon {
+          width: vw(520px);
+          height: vw(340px);
+          &::before {
+            right: vw(30px);
+            width: vw(94px);
+          }
+          .rotate-v2 {
+            width: vw(200px);
+          }
+          &::after {
+            width: vw(220px);
+          }
+        }
+        .full-header-gnb {
+          li {
+            font-size: vw(80px);
+            a i {
+              &:hover {
+                -webkit-text-stroke-width: 1.5px;
+              }
+              &::before {
+                width: vw(80px);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 768px) {
+  $header-height: 80px;
   header {
     .header-inner {
-      height: 80px;
+      height: $header-height;
       .logo {
         width: 180px;
       }
@@ -531,9 +629,30 @@ footer {
     }
   }
   .full-header {
+    align-items: flex-end;
     .full-header-content {
       flex-direction: column;
-      gap: 50px;
+      height: calc(100vh - $header-height);
+      padding: 30px 0 50px;
+      .full-header-gnb-wrap {
+        position: relative;
+        .full-header-icon {
+          width: 50%;
+          height: 70%;
+          &::before {
+            top: vw(60px);
+          }
+          .rotate-v2 {
+            top: 15%;
+          }
+        }
+        .capstone {
+          display: inline-block;
+          background-color: $black;
+          color: $light-yellow;
+          margin-top: 30px;
+        }
+      }
       address {
         align-self: auto;
         text-align: unset;
@@ -544,13 +663,6 @@ footer {
         }
         .tel-fax {
           flex-direction: row;
-        }
-      }
-      .full-header-icon {
-        width: 50%;
-        height: 50%;
-        &::before {
-          top: vw(60px);
         }
       }
     }

@@ -3,6 +3,7 @@ import './common.js';
 import $ from 'jquery';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { TweenMax } from 'gsap/gsap-core.js';
 
 window.addEventListener('load', function () {
   gsap.registerPlugin(ScrollTrigger);
@@ -93,19 +94,30 @@ window.addEventListener('load', function () {
   });
 
   /* Section : Introduction - Icon Animation */
-  const iconTween = gsap.from('section.introduction [class*=icon]', {
-    width: 0,
-    margin: 0,
-    stagger: 0.4,
-    paused: true,
-    delay: 0.2,
-  });
+  let iconTween = gsap.fromTo(
+    'section.introduction [class*=icon]',
+    {
+      width: 0,
+      margin: 0,
+    },
+    {
+      width: (i, el) => {
+        console.dir($(el).css('width'));
+      },
+      margin: (i, el) => $(el).css('margin'),
+      stagger: 0.4,
+      paused: true,
+      delay: 0.2,
+    }
+  );
 
   ScrollTrigger.create({
     trigger: 'section.introduction',
     start: 'top 90%',
     onEnter: () => iconTween.play(),
-    onLeaveBack: () => iconTween.restart(true).pause(),
+    onLeaveBack: function () {
+      iconTween.restart(true).pause();
+    },
   });
 
   let sloganTl;
@@ -121,7 +133,9 @@ window.addEventListener('load', function () {
     },
   });
 
-  gsap.matchMedia().add('(min-width: 769px)', () => {
+  const mm = gsap.matchMedia();
+  console.dir(mm);
+  mm.add('(min-width: 769px)', () => {
     /* Section : Slogan Animation */
 
     sloganTl = gsap
@@ -148,7 +162,7 @@ window.addEventListener('load', function () {
       );
   });
 
-  gsap.matchMedia().add('(max-width: 768px)', () => {
+  mm.add('(max-width: 768px)', () => {
     sloganTl = gsap
       .timeline({
         paused: true,

@@ -27,12 +27,24 @@ window.addEventListener('load', function () {
       .fromTo(
         '.full-header-gnb a',
         { autoAlpha: 0, yPercent: 100 },
-        { autoAlpha: 1, yPercent: 0, stagger: 0.1 }
+        {
+          autoAlpha: 1,
+          yPercent: 0,
+          stagger: 0.1,
+        }
+      )
+      .fromTo(
+        '.full-header-gnb-wrap .capstone',
+        {
+          autoAlpha: 0,
+        },
+        { autoAlpha: 1, duration: 0.3 }
       )
       .fromTo(
         '.full-header .address-content',
         { yPercent: 100 },
-        { yPercent: 0, duration: 0.3 }
+        { yPercent: 0, duration: 0.3 },
+        '<'
       )
       .fromTo('.full-header-icon', { autoAlpha: 0 }, { autoAlpha: 1 })
       .fromTo(
@@ -46,6 +58,14 @@ window.addEventListener('load', function () {
           duration: 1,
         }
       );
+
+    const capstoneTw = gsap.fromTo(
+      '.full-header-gnb-wrap .capstone',
+      {
+        autoAlpha: 0,
+      },
+      { autoAlpha: 1, paused: true }
+    );
 
     if ($('section.dark')[0]) {
       ScrollTrigger.create({
