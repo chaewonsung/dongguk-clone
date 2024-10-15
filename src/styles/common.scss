@@ -16,11 +16,20 @@ $bg-orange: #fe7632;
 @function vw($px-vw, $base-vw: 1800px) {
   @return ($px-vw * 100vw) / $base-vw;
 }
-@function to-clamp($val) {
+@function to-clamp($val, $minVal: 0.65) {
   @if ($val == 0 or $val == null) {
     @return $val;
   }
-  @return clamp($val * 0.65, vw($val), $val);
+  $min: null;
+  @if $minVal > 0 and $minVal < 1 {
+    $min: $val * $minVal;
+  } @else {
+    $min: $minVal;
+  }
+  @if ($val < 0) {
+    @return clamp($val, vw($val), $min);
+  }
+  @return clamp($min, vw($val), $val);
 }
 @mixin set-bg-icon($icon-width, $icon-top, $icon-left, $url-head, $after...) {
   @for $i from 1 through length($icon-width) {
@@ -491,19 +500,23 @@ footer {
   .footer-inner {
     .copyright-wrap {
       display: flex;
-      margin-bottom: 40px;
-      .powered-by {
-        font-size: 14px;
-        opacity: 0.5;
-        margin-left: 50px;
-        b {
-          font-weight: bold;
+      justify-content: space-between;
+      > * {
+        margin-bottom: 40px;
+      }
+      .copyright {
+        .powered-by {
+          font-size: 14px;
+          opacity: 0.5;
+          margin-left: 50px;
+          b {
+            font-weight: bold;
+          }
         }
       }
       .related-site {
         position: relative;
         width: 210px;
-        margin-left: auto;
         span {
           cursor: pointer;
           display: flex;
@@ -511,6 +524,7 @@ footer {
           .bi {
             transform: rotate(0);
             transition: transform 0.2s;
+            vertical-align: middle;
           }
         }
         &.active {
@@ -611,6 +625,14 @@ footer {
       }
     }
   }
+  footer {
+    .copyright-wrap {
+      flex-direction: column;
+
+      .related-site {
+      }
+    }
+  }
 }
 @media screen and (max-width: 768px) {
   $header-height: 80px;
@@ -663,6 +685,34 @@ footer {
         }
         .tel-fax {
           flex-direction: row;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  footer {
+    .footer-inner {
+      .copyright-wrap {
+        > * {
+          margin-bottom: 20px;
+        }
+        .copyright {
+          .powered-by {
+            display: block;
+            margin-left: 0;
+            margin-top: 10px;
+          }
+        }
+        .related-site {
+          span {
+            justify-content: start;
+            .bi {
+              margin-left: 10px;
+              scale: 0.7;
+            }
+          }
         }
       }
     }

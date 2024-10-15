@@ -73,29 +73,42 @@ window.addEventListener('load', function () {
     .add(greetingEmojiTl);
 
   /* Section : Program guide - Letter Animation */
-  gsap.utils.toArray('.letter-item').forEach((item) => {
+  const letterArr = gsap.utils.toArray('.letter-item').map((item) => {
     const q = gsap.utils.selector(item);
     const letterTl = gsap
       .timeline({ paused: true, defaults: { duration: 0.3 }, delay: 0.3 })
       .to(q('.letter-envelope-close-img'), { rotateX: 180 })
       .set(q('.letter-envelope-close-img'), { zIndex: 0 })
-      .to(q('.letter-paper'), { y: 0 })
+      .to(q('.letter-paper'), {
+        y: () => -$(q('.letter-paper-text')).innerHeight(),
+        top: 0,
+      })
       .to(q('.letter-envelope-in-img'), { display: 'block' }, '<')
       .to(q('.letter-envelope-close-img'), { autoAlpha: 0 }, '<');
 
-    item.addEventListener('mouseenter', function () {
+    function letterMouseEnter() {
       gsap.to(q('.letter-bubble'), { autoAlpha: 0, duration: 0.3 });
       letterTl.play();
-    });
-    item.addEventListener('mouseleave', function () {
+    }
+    function letterMouseLeave() {
       gsap.to(q('.letter-bubble'), { autoAlpha: 1 });
       letterTl.reverse();
+    }
+
+    ScrollTrigger.addEventListener('refresh', () => {
+      letterTl.invalidate().restart().pause();
     });
+
+    return {
+      timeline: letterTl,
+      mouseEnterFunc: letterMouseEnter,
+      mouseLeaveFunc: letterMouseLeave,
+    };
   });
 
   /* Section : Introduction - Icon Animation */
   let iconTween = gsap.fromTo(
-    'section.introduction [class*=icon]',
+    '.introduction-phrase [class*=icon]',
     {
       width: 0,
       margin: 0,
@@ -134,32 +147,13 @@ window.addEventListener('load', function () {
   });
 
   const mm = gsap.matchMedia();
-  console.dir(mm);
-  mm.add('(min-width: 769px)', () => {
-    /* Section : Slogan Animation */
 
-    sloganTl = gsap
-      .timeline({ paused: true, delay: 0.3 })
-      .to('.slogan-phrase-bg', {
-        rotateX: 90,
-        transformOrigin: 'bottom center',
-        stagger: 0.3,
-      })
-      .to(
-        '.slogan-phrase .absolute',
-        {
-          rotateX: 90,
-          transformOrigin: 'bottom center',
-          stagger: (index) => (index < 2 ? 0 : 0.3),
-        },
-        0
-      )
-      .fromTo(
-        '.slogan-phrase .static',
-        { rotateX: 90, transformOrigin: 'top center' },
-        { rotateX: 0, stagger: (index) => (index < 2 ? 0 : 0.3) },
-        0
-      );
+  mm.add('(min-width: 769px)', () => {
+    gsap.utils.toArray('.letter-item').forEach((elem, i) => {
+      letterArr[i].timeline.restart().pause();
+      elem.addEventListener('mouseenter', letterArr[i].mouseEnterFunc);
+      elem.addEventListener('mouseleave', letterArr[i].mouseLeaveFunc);
+    });
   });
 
   mm.add('(max-width: 768px)', () => {
@@ -179,5 +173,16 @@ window.addEventListener('load', function () {
         { rotateX: 0 },
         0
       );
+
+    gsap.utils.toArray('.letter-item').forEach((elem, i) => {
+      elem.removeEventListener('mouseenter', letterArr[i].mouseEnterFunc);
+      elem.removeEventListener('mouseleave', letterArr[i].mouseLeaveFunc);
+      ScrollTrigger.create({
+        trigger: elem,
+        start: 'bottom bottom',
+        onEnter: letterArr[i].mouseEnterFunc,
+        onLeaveBack: letterArr[i].mouseLeaveFunc,
+      });
+    });
   });
 });
