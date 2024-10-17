@@ -1,5 +1,9 @@
 @import 'fonts', 'common', 'reset', 'bootstrap-icons/font/bootstrap-icons.css';
 
+[class*='inner'] {
+  width: 1320px;
+  margin: 0 auto;
+}
 main {
   background-color: #ab9bf5;
 }
@@ -9,8 +13,7 @@ section.qna {
 
   .qna-inner {
     position: relative;
-    width: 1320px;
-    margin: 0 auto;
+
     .qna-search {
       border-bottom: 1px solid rgba($black, 0.2);
       padding-bottom: 70px;
@@ -18,12 +21,12 @@ section.qna {
       .qna-text {
         position: relative;
         text-align: center;
-        font-size: 80px;
+        font-size: to-clamp(80px, 50px);
         line-height: 1.2;
-        margin: 200px 0;
+        margin: to-clamp(200px) 0;
         .qna-bg-text {
           @include absolute($t: 50%, $l: 50%);
-          font-size: 200px;
+          font-size: to-clamp(200px, 48px);
           font-family: $en;
           text-transform: uppercase;
           font-weight: 700;
@@ -33,20 +36,22 @@ section.qna {
         }
       }
       .input-wrap {
+        --height: 70px;
+
         position: relative;
         width: fit-content;
         margin: 0 auto;
+        font-size: 22px;
         input {
           border-radius: 99px;
           border: 2px solid $black;
-          width: 50vw;
-          max-width: 1000px;
-          height: 70px;
+          width: clamp(500px, 50vw, 1000px);
+          height: var(--height);
           padding: 0 40px;
-          font-size: 22px;
           font-family: $secondary-kr;
           background-color: $light-yellow;
           font-weight: 300;
+          font-size: 1em;
           &::placeholder {
             font-size: inherit;
             font-weight: inherit;
@@ -57,19 +62,21 @@ section.qna {
         }
         button {
           @include absolute($r: 20px, $t: 50%);
+          font-size: 1.2em;
           .bi {
-            font-size: 30px;
+            font-size: inherit;
             &::before {
-              line-height: 70px;
+              line-height: var(--height);
             }
           }
         }
       }
     }
     .qna-card-list {
+      $gap: 20px;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: $gap;
       font-family: $secondary-kr;
       li {
         background-color: $light-yellow;
@@ -116,58 +123,49 @@ section.qna {
   }
   .qna-bg-icon {
     @include absolute($l: 50%, $b: 0);
-    width: 90%;
+    width: 85%;
     height: 100%;
     filter: drop-shadow(5px 5px rgba($black, 0.1));
 
     $icon-width: 50px, 330px, 220px, 130px, 270px, 50px, 270px, 220px, 50px,
       180px, 150px, 170px;
-    $icon-left: 70%, 0, 90%, 85%, 0, 40%, 90%, 0, 40%, 90%, 12%, 7%;
-    $top: 0;
+    $percent: calc(100% / (length($icon-width) - 1));
+    $icon-top: 7vw, 16vw, $percent * 2, $percent * 3, $percent * 4, $percent * 5,
+      $percent * 6, $percent * 7, $percent * 8, $percent * 9, $percent * 10,
+      null;
+    $icon-right: null, null, 0, null, null, null, 0, null, null, 0, null, null;
+    $icon-bottom: null, null, null, null, null, null, null, null, null, null,
+      null, 50px;
+    $icon-left: 70%, 0, null, 85%, 0, 40%, null, 0, 40%, null, 15%, 10%;
 
-    @for $i from 1 through length($icon-width) {
-      $width: nth($icon-width, $i);
-      $top: $top + calc(100% / length($icon-width));
-      $left: nth($icon-left, $i);
+    @include set-bg-icon-2(
+      $icon-width,
+      $icon-top,
+      $icon-right,
+      $icon-bottom,
+      $icon-left,
+      'deco_gallery',
+      2
+    );
 
-      i:nth-child(#{$i}) {
-        @include absolute($t: $top, $l: $left);
-        &::before {
-          @include bg-icon-pseudo($width);
-          background-image: url(/src/images/deco_gallery#{$i}.png);
-        }
-      }
-      @if ($i == 1) {
-        i:nth-child(#{$i}) {
-          @include absolute($t: 140px, $l: $left);
-        }
-      }
-      @if ($i == 2) {
-        i:nth-child(#{$i})::after {
-          @include bg-icon-pseudo(50px);
-          @include absolute(0, 0, 0, 0);
-          background-image: url(/src/images/deco_gallery#{$i}_2.png);
-        }
-      }
-      @if ($i == 12) {
-        i:nth-child(#{$i}) {
-          @include absolute($t: 94%, $l: $left);
-        }
+    i:nth-child(2) {
+      &::after {
+        width: 50px;
+        aspect-ratio: 1/1;
       }
     }
 
     .anim-custom-1 {
-      $line-width: 280px;
+      $line-width: to-clamp(280px);
       &::before {
-        transform: translateX(-$line-width);
+        transform: translateX(calc($line-width * -1));
       }
       &::after {
         content: '';
-        @include absolute($t: 50%, $l: calc(-#{$line-width} - 10px));
+        @include absolute($t: 50%, $r: calc(100% + 5px));
         width: 0px;
         height: 2px;
         background-color: $black;
-        transform: translate(0, calc(-50% - 3px));
       }
       &.active {
         &::before {
@@ -194,6 +192,92 @@ section.qna {
           }
         }
         animation: after-anim 1s 0.5s;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1320px) {
+  $base-vw: 1320px;
+
+  [class*='inner'] {
+    width: 100%;
+    padding: 0 20px;
+  }
+  section.qna {
+    .qna-inner {
+      .qna-search {
+        .input-wrap {
+          width: 100%;
+          input {
+            width: 100%;
+          }
+        }
+      }
+      .qna-card-list {
+        li {
+          font-size: to-clamp(20px, 16px, $base-vw);
+          a {
+            p {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  $base-vw: 768px;
+
+  section.qna {
+    .qna-bg-icon {
+      i:nth-child(1) {
+        top: 14vw;
+        &::after {
+          height: 1px;
+        }
+      }
+      i:nth-child(2) {
+        top: 30vw;
+      }
+    }
+    .qna-inner {
+      .qna-search {
+        .input-wrap {
+          --height: 60px;
+          font-size: 18px;
+          input {
+          }
+        }
+        .qna-text {
+          margin: to-clamp(150px, 0.5, $base-vw) 0;
+          font-size: to-clamp(50px, 0.5, $base-vw);
+          .qna-bg-text {
+            white-space: wrap;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  section.qna {
+    .qna-inner {
+      .qna-search {
+        padding-bottom: 50px;
+        .input-wrap {
+          --height: 50px;
+          font-size: 14px;
+          input {
+          }
+        }
+        .qna-text {
+          .qna-bg-text {
+          }
+        }
       }
     }
   }
