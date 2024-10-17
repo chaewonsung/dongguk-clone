@@ -473,9 +473,6 @@ main {
       &:not(:last-child) {
         margin-right: 10px;
       }
-      &::before {
-        line-height: 30px;
-      }
       &:last-child::before {
         transform: scale(1.15);
       }

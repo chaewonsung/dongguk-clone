@@ -12,8 +12,8 @@ window.addEventListener('load', function () {
 
   new Swiper('section.story .swiper', {
     modules: [Navigation, Pagination],
-    slidesPerView: 3,
-    spaceBetween: 40,
+    slidesPerView: 1,
+    spaceBetween: 30,
     pagination: {
       el: 'section.story .swiper-pagination',
       clickable: true,
@@ -21,6 +21,13 @@ window.addEventListener('load', function () {
     navigation: {
       prevEl: 'section.story .swiper-button-prev',
       nextEl: 'section.story .swiper-button-next',
+    },
+    breakpoints: {
+      650: { slidesPerView: 2 },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 20,
+      },
     },
   });
 
@@ -30,5 +37,6 @@ window.addEventListener('load', function () {
     margin: 0,
     stagger: 0.4,
     delay: 0.2,
+    clearProps: 'width,margin',
   });
 });

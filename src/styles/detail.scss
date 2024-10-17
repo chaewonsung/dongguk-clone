@@ -4,7 +4,9 @@
   background-color: $light-yellow;
 }
 
-$big-fz: 80px;
+:root {
+  --big-fz: clamp(30px, #{vw(80px)}, 80px);
+}
 
 main {
   background-color: $bg-green;
@@ -15,7 +17,7 @@ main {
   margin: 0 auto;
 }
 .heading {
-  font-size: $big-fz;
+  font-size: var(--big-fz);
   font-family: $primary-kr--bold;
   margin-bottom: 40px;
   line-height: 1.2;
@@ -23,9 +25,9 @@ main {
 
 section.notice {
   text-align: center;
-  font-size: $big-fz;
+  font-size: var(--big-fz);
   line-height: 1.6;
-  white-space: nowrap;
+  word-break: keep-all;
   .bold {
     font-family: $primary-kr--bold;
   }
@@ -35,10 +37,13 @@ section.notice {
   }
   [class*='icon'] {
     display: inline-block;
-    width: 80px;
-    margin: 0 20px;
+    width: var(--big-fz);
+    margin: 0 to-clamp(20px);
     aspect-ratio: 1/1;
     vertical-align: middle;
+    &.icon-2 {
+      width: clamp(30px * 1.2, #{vw(80px * 1.2)}, 80px * 1.2);
+    }
   }
   @for $i from 1 through 3 {
     .icon-#{$i} {
@@ -58,8 +63,8 @@ section.line {
     border-bottom: 2px solid black;
     white-space: nowrap;
     font-family: $primary-kr--bold;
-    font-size: $big-fz;
-    padding: 60px 0;
+    font-size: var(--big-fz);
+    padding: to-clamp(60px) 0;
     background-color: $light-yellow;
     transform-origin: calc(25% + 70vw) center;
     &:nth-child(1) {
@@ -99,27 +104,46 @@ section.line {
 }
 
 section.application {
-  $padding-top: 350px;
+  --padding-top: 350px;
 
   position: relative;
-  padding-top: $padding-top;
+  padding-top: var(--padding-top);
   background-color: $black;
   overflow: hidden;
   .application-bg-icon {
     @include absolute($b: 0, $l: 0);
     width: 100%;
-    height: calc(100% - $padding-top);
+    height: calc(100% - var(--padding-top));
 
-    $icon-width: 230px, 25px, 360px, 130px, 60px, 270px;
-    $icon-top: 0, 10%, calc(nth($icon-width, 3) / -2), 70%, 80%,
-      calc(100% - nth($icon-width, 6) / 2);
-    $icon-left: 0, 70%, calc(100% - nth($icon-width, 3)), 5%, 80%, 90%;
+    $icon-width: 230px, 40px, 360px, 130px, 60px, 270px;
+    $icon-top: 0, 10%, 0, 70%, 80%, 100%;
+    $icon-left: 0, 45%, null, 5%, 80%, null;
+    $icon-right: null, null, 0, null, null, 0;
+    $icon-bottom: null, null, null, null, null, null;
 
-    @include set-bg-icon($icon-width, $icon-top, $icon-left, 'student03_0', 1);
+    @include set-bg-icon-2(
+      $icon-width,
+      $icon-top,
+      $icon-right,
+      $icon-bottom,
+      $icon-left,
+      'student03_0',
+      1
+    );
 
     i:nth-child(1)::after {
       animation: infinite-rotate 20s infinite linear;
     }
+    i:nth-child(3) {
+      width: clamp(140px, 20vw, 360px);
+    }
+    i:nth-child(3),
+    i:nth-child(6) {
+      transform: translateY(-50%);
+    }
+  }
+  .application-inner {
+    position: relative;
   }
   .heading {
     color: $light-yellow;
@@ -127,9 +151,10 @@ section.application {
   .application-content-wrap {
     display: flex;
     justify-content: space-between;
+    gap: 20px;
     .application-content {
-      width: 640px;
-      height: 360px;
+      flex: 1;
+      aspect-ratio: 1/0.6;
       background-color: $light-yellow;
       border-radius: 20px;
       font-family: $secondary-kr;
@@ -138,16 +163,17 @@ section.application {
       justify-content: center;
       align-items: center;
       letter-spacing: -0.03em;
+      font-size: 25px;
       img {
         width: 40%;
       }
       p {
-        font-size: 25px;
+        font-size: 1em;
         margin: 20px 0;
         font-weight: 500;
       }
       .btn-link {
-        font-size: 15px;
+        font-size: 0.7em;
         border: 2px solid $black;
         transition: 0.2s;
         &:hover {
@@ -166,11 +192,24 @@ section.story {
   .story-inner {
     position: relative;
     .story-bg-icon {
-      @include absolute(0, 0, 0, 0);
+      @include absolute($t: 0, $l: 50%);
+      width: 100%;
+      height: 20%;
+
       $icon-width: 55px, 150px, 100px, 160px;
-      $icon-top: -(nth($icon-width, 1)), -100px, 10px, 70px;
-      $icon-left: 0, 75%, 90%, 72%;
-      @include set-bg-icon($icon-width, $icon-top, $icon-left, 'student04_0');
+      $icon-top: null, -50%, 10%, 30%;
+      $icon-right: null, 15%, 5%, 20%;
+      $icon-bottom: 100%, null, null, null;
+      $icon-left: 0, null, null, null;
+
+      @include set-bg-icon-2(
+        $icon-width,
+        $icon-top,
+        $icon-right,
+        $icon-bottom,
+        $icon-left,
+        'student04_0'
+      );
     }
     .heading {
       .stroke {
@@ -234,7 +273,7 @@ section.story {
       }
       .swiper-pagination {
         position: static;
-        margin-top: 10px;
+        margin-top: 25px;
         filter: drop-shadow(3px 3px rgba($black, 0.1));
         .swiper-pagination-bullet {
           background: $light-yellow;
@@ -242,6 +281,169 @@ section.story {
           &-active {
             opacity: 1;
           }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1800px) {
+  section.application {
+    .application-bg-icon {
+      i:nth-child(1) {
+        left: 25%;
+        top: -15%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1320px) {
+  $base-vw: 1320px;
+
+  [class*='inner'] {
+    width: 100%;
+    padding: 0 20px;
+  }
+  section.notice {
+  }
+  section.application {
+    .application-content-wrap {
+      .application-content {
+        font-size: to-clamp(25px, 18px, $base-vw);
+      }
+    }
+  }
+  section.story {
+    .story-inner {
+      .story-bg-icon {
+        i:nth-child(1) {
+          left: 20px;
+        }
+        i:nth-child(4) {
+          top: 15%;
+        }
+      }
+      .story-content {
+        .story-card {
+          .text-box {
+            font-size: to-clamp(20px, 14px, $base-vw);
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  $base-vw: 1024px;
+
+  .stroke {
+    -webkit-text-stroke-width: 1.5px !important;
+  }
+  section {
+    padding-bottom: 100px;
+  }
+  section.notice {
+    span {
+      display: block;
+    }
+  }
+  section.application {
+    --padding-top: 250px;
+
+    .application-bg-icon {
+    }
+    .application-content-wrap {
+      .application-content {
+        p {
+          margin: 15px 0 10px;
+        }
+        .btn-link {
+          padding: 10px 13px;
+        }
+      }
+    }
+  }
+  section.story {
+    padding-top: 150px;
+    .story-inner {
+      .story-content {
+        .story-card {
+          .card-header {
+            font-size: 25px;
+          }
+          .text-box {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  $base-vw: 768px;
+
+  section {
+    padding-bottom: 100px;
+  }
+  section.application {
+    --padding-top: 230px;
+
+    .application-bg-icon {
+      i:nth-child(1) {
+        top: -6%;
+      }
+      i:nth-child(2) {
+        top: 3%;
+      }
+      i:nth-child(4) {
+        top: auto;
+        bottom: 0;
+      }
+      i:nth-child(5) {
+        top: auto;
+        bottom: 4%;
+        left: 60%;
+      }
+    }
+    .application-content-wrap {
+      flex-direction: column;
+      gap: to-clamp(50px, 10px, $base-vw);
+      .application-content {
+        font-size: to-clamp(24px, 16px, $base-vw);
+        img {
+          width: 45%;
+        }
+        p {
+          margin: 2% 0;
+        }
+        .btn-link {
+          padding: 1.5% 2%;
+        }
+      }
+    }
+  }
+  section.story {
+    padding-top: 120px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  section {
+    padding-bottom: 70px;
+  }
+  section.application {
+    --padding-top: 170px;
+  }
+  section.story {
+    .story-inner {
+      .story-bg-icon {
+        i:nth-child(2),
+        i:nth-child(4) {
+          top: -70%;
+          right: 20%;
         }
       }
     }
