@@ -13,6 +13,7 @@ window.addEventListener('load', function () {
     .from('.center-list li', {
       yPercent: 100,
       autoAlpha: 0,
+      clearProps: 'yPercent',
       stagger: {
         grid: [1, 5],
         from: 'edges',

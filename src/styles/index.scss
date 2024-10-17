@@ -18,6 +18,7 @@ main {
  */
 section.greeting {
   position: relative;
+  padding-bottom: 0;
   .greeting-bg-text {
     width: 100%;
     position: absolute;
@@ -80,10 +81,10 @@ section.greeting {
       filter: drop-shadow(5px 5px rgba($black, 0.1));
 
       $icon-width: 120px, 165px, 190px, 111px, 150px, 125px, 200px;
-      $icon-top: 0, 25px, 0, 90px, null, null, null, null;
-      $icon-right: null, null, 80px, 0, null, 130px, 0;
+      $icon-top: 0, to-clamp(25px), 0, to-clamp(90px), null, null, null, null;
+      $icon-right: null, null, to-clamp(80px), 0, null, to-clamp(130px), 0;
       $icon-bottom: null, null, null, null, 0, 0, 0;
-      $icon-left: 0, 90px, null, null, 0, null, null;
+      $icon-left: 0, to-clamp(90px), null, null, 0, null, null;
 
       @include set-bg-icon-2(
         $icon-width,
@@ -643,14 +644,12 @@ section.greeting {
 }
 
 @media screen and (max-width: 1024px) {
-  @function vw($px-vw, $base-vw: 1024px) {
-    @return ($px-vw * 100vw) / $base-vw;
-  }
+  $base-vw: 1024px;
 
   section.program-guide {
     .program-guide-inner {
       .program-guide-title {
-        font-size: vw(120px);
+        font-size: vw(120px, $base-vw);
       }
       .letter-items {
         flex-direction: column;
@@ -706,9 +705,7 @@ section.greeting {
 }
 
 @media screen and (max-width: 768px) {
-  @function vw($px-vw, $base-vw: 768px) {
-    @return ($px-vw * 100vw) / $base-vw;
-  }
+  $base-vw: 768px;
 
   section:not(.greeting) {
     padding-bottom: 100px;
@@ -719,7 +716,7 @@ section.greeting {
       .text-wrap {
         padding: 20px 0;
         span {
-          font-size: vw(200px);
+          font-size: vw(200px, $base-vw);
         }
       }
     }
@@ -733,8 +730,8 @@ section.greeting {
           display: block;
           border-bottom: 2px solid $black;
           margin-right: 0;
-          padding: vw(20px) vw(100px);
-          font-size: vw(60px);
+          padding: vw(20px, $base-vw) vw(100px, $base-vw);
+          font-size: vw(60px, $base-vw);
           > span {
             transform: translateY(0);
             height: auto;
@@ -755,10 +752,10 @@ section.greeting {
   }
   section.introduction {
     .introduction-content {
-      font-size: vw(80px);
+      font-size: vw(80px, $base-vw);
       .introduction-phrase {
         [class*='icon'] {
-          width: vw(80px);
+          width: vw(80px, $base-vw);
         }
         span {
           display: block;

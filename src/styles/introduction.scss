@@ -13,6 +13,12 @@
     -webkit-text-stroke: 1px $black;
     color: transparent;
   }
+  p {
+    font-size: 0.5em;
+    font-family: $secondary-kr;
+    letter-spacing: -0.05em;
+    margin: 40px 0 70px;
+  }
 }
 main {
   background-color: $bg-orange;
@@ -34,52 +40,36 @@ section.center-intro {
     @include absolute(0, 0, 0, 0);
 
     $icon-width: 180px, 180px, 100px, 350px, 350px;
+    $icon-top: 0, 50px, 0, null, null;
+    $icon-left: 150px, 70%, null, to-clamp(-100px), null;
+    $icon-right: null, null, to-clamp(-40px), null, to-clamp(-50px);
+    $icon-bottom: null, null, null, to-clamp(80px), to-clamp(20px);
 
-    @for $i from 1 through length($icon-width) {
-      $width: nth($icon-width, $i);
-
-      i:nth-child(#{$i})::before {
-        @include bg-icon-pseudo($width);
-        background-image: url('/src/images/center_deco0#{$i}.png');
-      }
-
-      @if ($i == 5) {
-        i:nth-child(#{$i}) {
-          &::after {
-            @include bg-icon-pseudo($width);
-            background-image: url('/src/images/center_deco0#{$i}_2.png');
-          }
-        }
-      }
-    }
+    @include set-bg-icon-2(
+      $icon-width,
+      $icon-top,
+      $icon-right,
+      $icon-bottom,
+      $icon-left,
+      'center_deco0',
+      5
+    );
 
     i:nth-child(1) {
-      @include absolute($t: 0, $l: 10%);
-    }
-    i:nth-child(2) {
-      @include absolute($t: 50px, $l: 60%);
-    }
-    i:nth-child(3) {
-      @include absolute($t: 0, $r: -40px);
-    }
-    i:nth-child(4) {
-      @include absolute($b: 80px, $l: -250px);
-    }
-    i:nth-child(5) {
-      @include absolute($b: 20px, $r: -50px);
-      &::after {
-        @include absolute(0, 0, 0, 0);
-      }
+      transition: left 1s;
     }
   }
   .center-intro-inner {
+    position: relative;
+    .heading {
+    }
     .center-list-wrap {
       position: relative;
-      margin: 270px 0;
+      margin: to-clamp(300px) 0;
       .center-list-bg-text {
         @include absolute($t: 50%, $l: 50%);
         transform: translate(-50%, -50%);
-        font-size: 200px;
+        font-size: to-clamp(200px, 70px);
         white-space: nowrap;
         font-family: $primary-kr--bold;
         -webkit-text-stroke: 2px $light-yellow;
@@ -87,22 +77,27 @@ section.center-intro {
         text-align: center;
         text-transform: uppercase;
         will-change: transform;
+        line-height: 1.2;
       }
       .center-list {
         position: relative;
         display: flex;
         justify-content: space-between;
+        gap: 2%;
         li {
           background-color: $light-yellow;
           text-align: center;
           border-radius: 10px;
           padding: 30px;
           font-size: 20px;
-          font-weight: 700;
+          font-weight: 500;
           font-family: $secondary-kr;
+          box-shadow: 0 0 5px rgba($black, 0.1);
+          transition: margin 0.5s;
+          height: fit-content;
           img {
+            width: 100%;
             display: block;
-            width: 160px;
             margin-bottom: 20px;
           }
         }
@@ -117,7 +112,7 @@ section.center-intro {
 section.infinite-phrase {
   overflow: hidden;
   img {
-    height: 120px;
+    height: to-clamp(120px);
   }
 }
 
@@ -129,27 +124,20 @@ section.course {
   .course-bg-icon {
     @include absolute(0, 0, 0, 0);
 
-    $icon-width: 300px, 100px, 270px, 40px, 170px, 270px, 40px;
-    $top: 50px, 0, 20%, 40%, 55%, 80%, 96%;
-    $right: 28%, 10%, calc(100% - 270px), 5%, 90%, 5%, 70%;
+    $icon-width: 330px, 100px, 270px, 40px, 170px, 270px;
+    $icon-top: 3%, 0, 20%, 40%, 55%, null;
+    $icon-right: 18%, 5%, null, 5%, 90%, 40px;
+    $icon-bottom: null, null, null, null, null, 10%;
+    $icon-left: null, null, 0, null, null, null;
 
-    @for $i from 1 through length($icon-width) {
-      $width: nth($icon-width, $i);
-      $t: nth($top, $i);
-      $r: nth($right, $i);
-
-      i:nth-child(#{$i}) {
-        @include absolute($t: $t, $r: $r);
-        &::before {
-          @include bg-icon-pseudo($width);
-          @if ($i == length($icon-width)) {
-            background-image: url('/src/images/department_deco04.png');
-          } @else {
-            background-image: url('/src/images/department_deco0#{$i}.png');
-          }
-        }
-      }
-    }
+    @include set-bg-icon-2(
+      $icon-width,
+      $icon-top,
+      $icon-right,
+      $icon-bottom,
+      $icon-left,
+      'department_deco0'
+    );
     .rotate {
       animation: infinite-rotate 10s linear infinite;
     }
@@ -170,11 +158,8 @@ section.course {
       }
     }
   }
-  p {
-    font-size: 40px;
-    font-family: $secondary-kr;
-    letter-spacing: -0.05em;
-    margin: 40px 0 70px;
+  .course-inner {
+    position: relative;
   }
   table {
     width: 100%;
@@ -190,7 +175,7 @@ section.course {
     }
     th,
     td {
-      font-size: 25px;
+      font-size: to-clamp(25px, 16px, 1320px);
       padding: 30px;
     }
     thead {
@@ -214,6 +199,235 @@ section.course {
       td:last-child {
         font-weight: 300;
         word-break: keep-all;
+      }
+    }
+  }
+}
+@media screen and (max-width: 2000px) {
+  @function vw($px-vw, $base-vw: 2000px) {
+    @return ($px-vw * 100vw) / $base-vw;
+  }
+  @function to-clamp($val, $minVal: 0.5) {
+    @if ($val == 0 or $val == null) {
+      @return $val;
+    }
+    $min: null;
+    @if $minVal > 0 and $minVal < 1 {
+      $min: $val * $minVal;
+    } @else {
+      $min: $minVal;
+    }
+    @if ($val < 0) {
+      @return clamp($val, vw($val), $min);
+    }
+    @return clamp($min, vw($val), $val);
+  }
+
+  section.center-intro {
+    .center-intro-bg-icon {
+      i:nth-child(1) {
+        left: 55%;
+      }
+    }
+    .center-intro-inner {
+      .center-list-wrap {
+        .center-list-bg-text {
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1320px) {
+  $base-vw: 1320px;
+
+  [class*='inner'] {
+    width: 100%;
+    padding: 0 20px;
+  }
+  .heading {
+    font-size: to-clamp(90px, 30px, $base-vw);
+  }
+  section.center-intro {
+    .center-intro-inner {
+      .center-list-wrap {
+        .center-list-bg-text {
+        }
+        .center-list {
+          li {
+            padding: 20px 15px;
+            font-size: to-clamp(20px, 14px);
+          }
+        }
+      }
+    }
+  }
+
+  /*
+ * Section : Course
+ */
+  section.course {
+    position: relative;
+    .course-bg-icon {
+      i:nth-child(1) {
+        top: 8%;
+        right: 8%;
+      }
+      i:nth-child(4) {
+        right: 0;
+      }
+      i:nth-child(5) {
+        width: 40px;
+        left: 0;
+      }
+      i:nth-child(6) {
+        bottom: 0;
+      }
+    }
+    .course-inner {
+    }
+    table {
+      * {
+      }
+      th,
+      td {
+      }
+      thead {
+        * {
+        }
+        th:first-child {
+        }
+      }
+      tbody {
+        td:first-child {
+        }
+        td:last-child {
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .heading {
+    p {
+      margin: 20px 0 40px;
+    }
+  }
+  section {
+    padding-bottom: 100px;
+  }
+  section.center-intro {
+    .center-intro-inner {
+      .center-list-wrap {
+        margin: 120px 0;
+        .center-list-bg-text {
+          line-height: 1.4;
+        }
+        .center-list {
+          gap: 0;
+          li {
+            position: relative;
+            &:nth-child(1) {
+              margin-right: -20px;
+            }
+            &:nth-child(2) {
+              margin-right: -20px;
+              z-index: 2;
+              margin-top: 30px;
+            }
+            &:nth-child(3) {
+              z-index: 3;
+              margin-top: 60px;
+            }
+            &:nth-child(4) {
+              margin-left: -20px;
+              z-index: 2;
+              margin-top: 30px;
+            }
+            &:nth-child(5) {
+              margin-left: -20px;
+            }
+          }
+        }
+      }
+    }
+  }
+  section.course {
+    table {
+      letter-spacing: -0.02em;
+    }
+  }
+}
+
+@media screen and (max-width: 630px) {
+  section.center-intro {
+    .center-intro-inner {
+      .heading {
+      }
+      .center-list-wrap {
+        margin: 250px 0;
+        .center-list-bg-text {
+        }
+        .center-list {
+          li {
+            $col-gap: 20px;
+            $col: 3;
+            $row-gap: 50px;
+            $width: calc((100% - $col-gap * ($col - 1)) / $col);
+            width: $width;
+            min-width: 120px;
+            position: absolute;
+            font-size: 12px;
+            &:nth-child(1) {
+              margin: 0;
+              bottom: $row-gap / 2;
+              left: 0;
+            }
+
+            &:nth-child(2) {
+              margin: 0;
+              top: $row-gap / 2;
+              left: 0;
+            }
+            &:nth-child(3) {
+              margin: 0;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
+            &:nth-child(4) {
+              margin: 0;
+              right: 0;
+              top: $row-gap / 2;
+            }
+            &:nth-child(5) {
+              margin: 0;
+              bottom: $row-gap / 2;
+              right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  section {
+    padding-bottom: 50px;
+  }
+  section.course {
+    .course-bg-icon {
+      i:nth-child(1){
+        top: 12%;
+      }
+    }
+    table {
+      th,
+      td {
+        font-size: 12px;
+        padding: 15px;
       }
     }
   }

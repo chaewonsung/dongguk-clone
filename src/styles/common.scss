@@ -14,9 +14,9 @@ $bg-orange: #fe7632;
     #{$width}px 0px $color, 0px -#{$width}px $color;
 }
 @function vw($px-vw, $base-vw: 1800px) {
-  @return ($px-vw * 100vw) / $base-vw;
+  @return $px-vw * 100vw / $base-vw;
 }
-@function to-clamp($val, $minVal: 0.65) {
+@function to-clamp($val, $minVal: 0.5, $base-vw: 1800px) {
   @if ($val == 0 or $val == null) {
     @return $val;
   }
@@ -27,9 +27,9 @@ $bg-orange: #fe7632;
     $min: $minVal;
   }
   @if ($val < 0) {
-    @return clamp($val, vw($val), $min);
+    @return clamp($val, vw($val, $base-vw), $min);
   }
-  @return clamp($min, vw($val), $val);
+  @return clamp($min, vw($val, $base-vw), $val);
 }
 @mixin set-bg-icon($icon-width, $icon-top, $icon-left, $url-head, $after...) {
   @for $i from 1 through length($icon-width) {
@@ -74,10 +74,10 @@ $bg-orange: #fe7632;
 
     i:nth-child(#{$i}) {
       position: absolute;
-      top: to-clamp($top);
-      right: to-clamp($right);
-      bottom: to-clamp($bottom);
-      left: to-clamp($left);
+      top: $top;
+      right: $right;
+      bottom: $bottom;
+      left: $left;
       width: to-clamp($width);
       aspect-ratio: 1/1;
       &::before {
@@ -173,7 +173,7 @@ $bg-orange: #fe7632;
   color: $black;
   box-sizing: border-box;
 }
-section:not(.greeting) {
+section {
   padding-bottom: 150px;
 }
 .container {
@@ -204,6 +204,9 @@ section:not(.greeting) {
 /*
  * Header
  */
+:root {
+  --header-height: 120px;
+}
 header {
   position: fixed;
   top: 0;
@@ -212,8 +215,7 @@ header {
   width: 100%;
   font-family: $secondary-kr;
   .header-inner {
-    $header-height: 120px !global;
-    height: $header-height;
+    height: var(--header-height);
     display: flex;
     align-items: center;
     .logo {
@@ -364,10 +366,11 @@ header.bright {
         }
       }
       .full-header-gnb {
+        font-size: 80px;
         li {
-          $font-size: 80px;
-          $arrow-margin-r: 10px;
-          $translateX: calc($font-size + $arrow-margin-r);
+          $font-size: 1em;
+          $arrow-mr: 10px;
+          $translateX: calc($font-size + $arrow-mr);
 
           padding-right: $translateX;
           font-family: $primary-kr--bold;
@@ -383,7 +386,7 @@ header.bright {
               transition: transform 0.5s;
               &::before {
                 content: '';
-                @include absolute($r: calc(100% + $arrow-margin-r), $t: 50%);
+                @include absolute($r: calc(100% + $arrow-mr), $t: 50%);
                 transform: translateY(-50%);
                 display: inline-block;
                 width: $font-size;
@@ -431,7 +434,7 @@ header.bright {
 }
 
 main {
-  padding-top: $header-height;
+  padding-top: var(--header-height);
   transition: 0.2s;
   &.yellow {
     background-color: $bg-yellow;
@@ -492,10 +495,11 @@ footer {
   height: 260px;
   display: flex;
   align-items: center;
+  font-family: $secondary-kr;
   * {
     color: $light-yellow;
-    font-weight: 500;
-    letter-spacing: -0.05em;
+    font-weight: 400;
+    letter-spacing: -0.02em;
   }
   .footer-inner {
     .copyright-wrap {
@@ -562,7 +566,7 @@ footer {
       }
     }
     address {
-      font-size: 14px;
+      font-size: 0.9em;
       line-height: 1.5;
     }
   }
@@ -588,36 +592,34 @@ footer {
   }
 }
 @media screen and (max-width: 1024px) {
-  @function vw($px-vw, $base-vw: 1024px) {
-    @return ($px-vw * 100vw) / $base-vw;
-  }
+  $base-vw: 1024px;
 
   .full-header {
     .full-header-content {
       .full-header-gnb-wrap {
         .full-header-icon {
-          width: vw(520px);
-          height: vw(340px);
+          width: vw(520px, $base-vw);
+          height: vw(340px, $base-vw);
           &::before {
-            right: vw(30px);
-            width: vw(94px);
+            right: vw(30px, $base-vw);
+            width: vw(94px, $base-vw);
           }
           .rotate-v2 {
-            width: vw(200px);
+            width: vw(200px, $base-vw);
           }
           &::after {
-            width: vw(220px);
+            width: vw(220px, $base-vw);
           }
         }
         .full-header-gnb {
+          font-size: vw(80px, $base-vw);
           li {
-            font-size: vw(80px);
             a i {
               &:hover {
                 -webkit-text-stroke-width: 1.5px;
               }
               &::before {
-                width: vw(80px);
+                width: vw(80px, $base-vw);
               }
             }
           }
@@ -626,19 +628,27 @@ footer {
     }
   }
   footer {
-    .copyright-wrap {
-      flex-direction: column;
+    font-size: 15px;
+    .footer-inner {
+      .copyright-wrap {
+        > * {
+          margin-bottom: 30px;
+        }
+        flex-direction: column;
 
-      .related-site {
+        .related-site {
+        }
       }
     }
   }
 }
 @media screen and (max-width: 768px) {
-  $header-height: 80px;
+  :root {
+    --header-height: 80px;
+  }
   header {
     .header-inner {
-      height: $header-height;
+      height: var(--header-height);
       .logo {
         width: 180px;
       }
@@ -654,7 +664,7 @@ footer {
     align-items: flex-end;
     .full-header-content {
       flex-direction: column;
-      height: calc(100vh - $header-height);
+      height: calc(100vh - var(--header-height));
       padding: 30px 0 50px;
       .full-header-gnb-wrap {
         position: relative;
@@ -693,6 +703,8 @@ footer {
 
 @media screen and (max-width: 480px) {
   footer {
+    font-size: 12px;
+    height: 220px;
     .footer-inner {
       .copyright-wrap {
         > * {
@@ -706,6 +718,10 @@ footer {
           }
         }
         .related-site {
+          width: 160px;
+          .site-link-list {
+            font-size: 12px;
+          }
           span {
             justify-content: start;
             .bi {

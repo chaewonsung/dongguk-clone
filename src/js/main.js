@@ -149,6 +149,29 @@ window.addEventListener('load', function () {
   const mm = gsap.matchMedia();
 
   mm.add('(min-width: 769px)', () => {
+    sloganTl = gsap
+      .timeline({ paused: true })
+      .to('.slogan-phrase-bg', {
+        rotateX: 90,
+        transformOrigin: 'bottom center',
+        stagger: 0.3,
+      })
+      .to(
+        '.slogan-phrase .absolute',
+        {
+          rotateX: 90,
+          transformOrigin: 'bottom center',
+          stagger: (index) => (index < 2 ? 0 : 0.3),
+        },
+        0
+      )
+      .fromTo(
+        '.slogan-phrase .static',
+        { rotateX: 90, transformOrigin: 'top center' },
+        { rotateX: 0, stagger: (index) => (index < 2 ? 0 : 0.3) },
+        0
+      );
+
     gsap.utils.toArray('.letter-item').forEach((elem, i) => {
       letterArr[i].timeline.restart().pause();
       elem.addEventListener('mouseenter', letterArr[i].mouseEnterFunc);
