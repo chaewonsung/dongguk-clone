@@ -3416,10 +3416,10 @@ section.introduction .introduction-content .introduction-phrase:nth-child(2) spa
 section.introduction .introduction-content .introduction-phrase [class*=icon] {
   display: inline-block;
   vertical-align: middle;
-  width: 100px;
   aspect-ratio: 1/1;
-  margin: 0 30px;
   background-size: cover;
+  width: 0;
+  margin: 0;
 }
 section.introduction .introduction-content .introduction-phrase .icon-clover {
   background-image: url(7414027abd4559a7adb8.svg);
@@ -3550,10 +3550,6 @@ section.greeting .greeting-emoji {
     font-size: 6.1111111111vw;
     padding-top: 6.1111111111vw;
   }
-  section.introduction .introduction-content .introduction-phrase [class*=icon] {
-    width: 5.5555555556vw;
-    margin: 0 1.6666666667vw;
-  }
   section.introduction .introduction-content a {
     font-size: clamp(15px, 1.6666666667vw, 30px);
     width: clamp(150px, 16.6666666667vw, 300px);
@@ -3642,9 +3638,6 @@ section.greeting .greeting-emoji {
   }
   section.introduction .introduction-content {
     font-size: 10.4166666667vw;
-  }
-  section.introduction .introduction-content .introduction-phrase [class*=icon] {
-    width: 10.4166666667vw;
   }
   section.introduction .introduction-content .introduction-phrase span {
     display: block;

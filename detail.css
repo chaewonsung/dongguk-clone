@@ -2870,13 +2870,13 @@ section.notice .stroke {
 }
 section.notice [class*=icon] {
   display: inline-block;
-  width: var(--big-fz);
-  margin: 0 clamp(10px, 1.1111111111vw, 20px);
   aspect-ratio: 1/1;
   vertical-align: middle;
+  width: 0;
+  margin: 0;
 }
 section.notice [class*=icon].icon-2 {
-  width: clamp(36px, 5.3333333333vw, 96px);
+  scale: 1.2;
 }
 section.notice .icon-1 {
   background: url(00becc3feac27f706ca2.png) no-repeat;

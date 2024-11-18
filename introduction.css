@@ -3018,6 +3018,9 @@ section.center-intro .center-intro-inner .center-list-wrap .center-list li {
   box-shadow: 0 0 5px rgba(22, 21, 20, 0.1);
   transition: margin 0.5s;
   height: fit-content;
+  transform: translateY(100%);
+  opacity: 0;
+  visibility: hidden;
 }
 section.center-intro .center-intro-inner .center-list-wrap .center-list li img {
   width: 100%;
