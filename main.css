@@ -3050,6 +3050,14 @@ section.greeting .greeting-inner .greeting-center img {
   left: 0;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  visibility: hidden;
+}
+section.greeting .greeting-inner .img-01 {
+  transform: scale(0);
+}
+section.greeting .greeting-inner .img-03 {
+  transform: scale(2);
 }
 
 /*
