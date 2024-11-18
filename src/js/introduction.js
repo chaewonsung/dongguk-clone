@@ -10,10 +10,9 @@ window.addEventListener('load', function () {
   /* Load Animation */
   gsap
     .timeline()
-    .from('.center-list li', {
-      yPercent: 100,
-      autoAlpha: 0,
-      clearProps: 'yPercent',
+    .to('.center-list li', {
+      y: 0,
+      autoAlpha: 1,
       stagger: {
         grid: [1, 5],
         from: 'edges',

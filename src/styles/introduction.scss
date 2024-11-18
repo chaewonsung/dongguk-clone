@@ -95,6 +95,10 @@ section.center-intro {
           box-shadow: 0 0 5px rgba($black, 0.1);
           transition: margin 0.5s;
           height: fit-content;
+          //GSAP FROM
+          transform: translateY(100%);
+          opacity: 0;
+          visibility: hidden;
           img {
             width: 100%;
             display: block;

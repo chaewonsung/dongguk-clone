@@ -98,13 +98,10 @@ window.addEventListener('load', function () {
   });
 
   /* Section : Introduction - Icon Animation */
-  gsap.from('.introduction-phrase [class*=icon]', {
-    width: 0,
-    margin: 0,
+  gsap.to('.introduction-phrase [class*=icon]', {
+    width: '1em',
+    margin: '0 0.3em',
     stagger: 0.4,
-    delay: 0.2,
-    paused: true,
-    clearProps: 'width,margin',
     scrollTrigger: {
       trigger: 'section.introduction',
       toggleActions: 'play none none reset',

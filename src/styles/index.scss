@@ -465,10 +465,13 @@ section.introduction {
       [class*='icon'] {
         display: inline-block;
         vertical-align: middle;
-        width: 100px;
+        // width: 1em;
+        // margin: 0 0.3em;
         aspect-ratio: 1/1;
-        margin: 0 30px;
         background-size: cover;
+        //GSAP FROM
+        width: 0;
+        margin: 0;
       }
       .icon-clover {
         background-image: url(/src/images/section02_02.svg);
@@ -636,12 +639,6 @@ section.greeting {
     .introduction-content {
       font-size: vw(110px);
       padding-top: vw(110px);
-      .introduction-phrase {
-        [class*='icon'] {
-          width: vw(100px);
-          margin: 0 vw(30px);
-        }
-      }
       a {
         font-size: to-clamp(30px, 15px);
         width: to-clamp(300px, 150px);
@@ -763,9 +760,6 @@ section.greeting {
     .introduction-content {
       font-size: vw(80px, $base-vw);
       .introduction-phrase {
-        [class*='icon'] {
-          width: vw(80px, $base-vw);
-        }
         span {
           display: block;
         }

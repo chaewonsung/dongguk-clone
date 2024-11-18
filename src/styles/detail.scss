@@ -37,13 +37,17 @@ section.notice {
   }
   [class*='icon'] {
     display: inline-block;
-    width: var(--big-fz);
-    margin: 0 to-clamp(20px);
+    // width: 1em;
+    // margin: 0 0.3em;
     aspect-ratio: 1/1;
     vertical-align: middle;
     &.icon-2 {
-      width: clamp(30px * 1.2, #{vw(80px * 1.2)}, 80px * 1.2);
+      scale: 1.2;
     }
+
+    //GSAP FROM
+    width: 0;
+    margin: 0;
   }
   @for $i from 1 through 3 {
     .icon-#{$i} {

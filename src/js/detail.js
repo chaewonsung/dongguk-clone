@@ -32,11 +32,9 @@ window.addEventListener('load', function () {
   });
 
   /* Section : Notice - Icon Animation */
-  gsap.from('section.notice [class*=icon]', {
-    width: 0,
-    margin: 0,
+  gsap.to('section.notice [class*=icon]', {
+    width: '1em',
+    margin: '0 0.3em',
     stagger: 0.4,
-    delay: 0.2,
-    clearProps: 'width,margin',
   });
 });
