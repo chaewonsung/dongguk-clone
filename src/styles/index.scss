@@ -106,7 +106,16 @@ section.greeting {
         left: 0;
         width: 100%;
         height: 100%;
+        //GSAP FROM
+        opacity: 0;
+        visibility: hidden;
       }
+    }
+    .img-01 {
+      transform: scale(0);
+    }
+    .img-03 {
+      transform: scale(2);
     }
   }
 }

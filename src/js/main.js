@@ -3,7 +3,6 @@ import './common.js';
 import $ from 'jquery';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { TweenMax } from 'gsap/gsap-core.js';
 
 window.addEventListener('load', function () {
   gsap.registerPlugin(ScrollTrigger);
@@ -59,17 +58,9 @@ window.addEventListener('load', function () {
 
   gsap
     .timeline()
-    .fromTo(
-      '.greeting-center .img-01',
-      { scale: 0, autoAlpha: 0 },
-      { scale: 1, autoAlpha: 1 }
-    )
-    .fromTo('.greeting-center .img-02', { autoAlpha: 0 }, { autoAlpha: 1 })
-    .fromTo(
-      '.greeting-center .img-03',
-      { scale: 2, autoAlpha: 0 },
-      { scale: 1, autoAlpha: 1 }
-    )
+    .to('.greeting-center .img-01', { scale: 1, autoAlpha: 1 })
+    .to('.greeting-center .img-02', { autoAlpha: 1 })
+    .to('.greeting-center .img-03', { scale: 1, autoAlpha: 1 })
     .add(greetingEmojiTl);
 
   /* Section : Program guide - Letter Animation */
@@ -107,29 +98,17 @@ window.addEventListener('load', function () {
   });
 
   /* Section : Introduction - Icon Animation */
-  let iconTween = gsap.fromTo(
-    '.introduction-phrase [class*=icon]',
-    {
-      width: 0,
-      margin: 0,
-    },
-    {
-      width: (i, el) => {
-        console.dir($(el).css('width'));
-      },
-      margin: (i, el) => $(el).css('margin'),
-      stagger: 0.4,
-      paused: true,
-      delay: 0.2,
-    }
-  );
-
-  ScrollTrigger.create({
-    trigger: 'section.introduction',
-    start: 'top 90%',
-    onEnter: () => iconTween.play(),
-    onLeaveBack: function () {
-      iconTween.restart(true).pause();
+  gsap.from('.introduction-phrase [class*=icon]', {
+    width: 0,
+    margin: 0,
+    stagger: 0.4,
+    delay: 0.2,
+    paused: true,
+    clearProps: 'width,margin',
+    scrollTrigger: {
+      trigger: 'section.introduction',
+      toggleActions: 'play none none reset',
+      invalidateOnRefresh: true,
     },
   });
 
@@ -138,12 +117,8 @@ window.addEventListener('load', function () {
   ScrollTrigger.create({
     trigger: 'section.slogan',
     start: 'top bottom',
-    onEnter() {
-      sloganTl.play();
-    },
-    onLeaveBack() {
-      sloganTl.restart(true).pause();
-    },
+    onEnter: () => sloganTl.play(),
+    onLeaveBack: () => sloganTl.restart(true).pause(),
   });
 
   const mm = gsap.matchMedia();

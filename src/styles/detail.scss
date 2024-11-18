@@ -154,7 +154,7 @@ section.application {
     gap: 20px;
     .application-content {
       flex: 1;
-      aspect-ratio: 1/0.6;
+      aspect-ratio: 16/9;
       background-color: $light-yellow;
       border-radius: 20px;
       font-family: $secondary-kr;
@@ -164,6 +164,7 @@ section.application {
       align-items: center;
       letter-spacing: -0.03em;
       font-size: 25px;
+      overflow: hidden;
       img {
         width: 40%;
       }
@@ -436,6 +437,13 @@ section.story {
   }
   section.application {
     --padding-top: 170px;
+    .application-content-wrap {
+      .application-content {
+        .btn-link {
+          border-width: 1px;
+        }
+      }
+    }
   }
   section.story {
     .story-inner {

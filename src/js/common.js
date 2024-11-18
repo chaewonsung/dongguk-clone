@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 window.addEventListener('load', function () {
   gsap.registerPlugin(ScrollTrigger);
 
-  $('.header-include').load('/pages/includes/header.html', function () {
+  $('.header-include').load('includes/header.html', function () {
     $('.full-header-buttons').on('click', function () {
       $('.container').toggleClass('full-header-on');
       $('.container').hasClass('full-header-on')
@@ -76,12 +76,12 @@ window.addEventListener('load', function () {
     }
 
     $('.gnb a').each(function (i, a) {
-      if ($(a).attr('href') === location.pathname) {
+      if (`/dongguk-clone/pages/${$(a).attr('href')}` === location.pathname) {
         $(a).addClass('located');
       }
     });
   });
-  $('.footer-include').load('/pages/includes/footer.html', function () {
+  $('.footer-include').load('includes/footer.html', function () {
     /* Footer - Related Site */
     $('footer .related-site').on('click', function () {
       $(this).toggleClass('active');
