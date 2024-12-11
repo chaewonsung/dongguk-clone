@@ -3333,7 +3333,7 @@ section.course table tbody td:last-child {
     margin: 0;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) !important;
   }
   section.center-intro .center-intro-inner .center-list-wrap .center-list li:nth-child(4) {
     margin: 0;
